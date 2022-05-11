@@ -1,0 +1,8 @@
+# goal
+aqc_msgs/ArmDisarmGoal arm_goal
+---
+# result
+aqc_msgs/ArmDisarmResult arm_result
+---
+# feedback
+aqc_msgs/ArmDisarmFeedback arm_feedback

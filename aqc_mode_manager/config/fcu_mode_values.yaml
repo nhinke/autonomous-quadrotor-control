@@ -1,0 +1,16 @@
+# note that these values must match those found in aqc_msgs/msg/FCUmode.msg
+
+fcu_mode_value_manual:     1
+fcu_mode_value_acro:       2
+fcu_mode_value_altctl:     3
+fcu_mode_value_position:   4
+fcu_mode_value_offboard:   5
+fcu_mode_value_stabilized: 6
+fcu_mode_value_rattitude:  7
+fcu_mode_value_mission:    8
+fcu_mode_value_loiter:     9
+fcu_mode_value_rtl:        10
+fcu_mode_value_land:       11
+fcu_mode_value_rtgs:       12
+fcu_mode_value_ready:      13
+fcu_mode_value_takeoff:    14

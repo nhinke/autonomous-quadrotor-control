@@ -1,0 +1,16 @@
+<launch>
+
+    <arg name="mode_values_config_file" default="$(find aqc_mode_manager)/config/fcu_mode_values.yaml"/>
+    <arg name="print_outputs_to_screen" default="true"/>
+
+    <rosparam command="load" file="$(arg mode_values_config_file)"/>
+
+    <group if="$(arg print_outputs_to_screen)">
+        <node pkg="aqc_mode_manager" type="aqc_mode_manager_node" name="aqc_mode_manager_node" output="screen"/>
+    </group>
+
+    <group unless="$(arg print_outputs_to_screen)">
+        <node pkg="aqc_mode_manager" type="aqc_mode_manager_node" name="aqc_mode_manager_node"/>
+    </group>
+
+</launch>

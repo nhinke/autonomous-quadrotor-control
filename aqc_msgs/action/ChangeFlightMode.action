@@ -1,0 +1,8 @@
+# goal
+aqc_msgs/CFMGoal cfm_goal
+---
+# result
+aqc_msgs/CFMResult cfm_result
+---
+# feedback
+aqc_msgs/CFMFeedback cfm_feedback
