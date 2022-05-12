@@ -1,0 +1,2 @@
+geometry_msgs/Point ENU_position
+float64 yaw_orientation

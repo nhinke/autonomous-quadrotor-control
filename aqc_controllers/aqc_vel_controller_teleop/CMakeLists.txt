@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(aqc_coordinator)
+project(aqc_vel_controller_teleop)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -9,12 +9,13 @@ project(aqc_coordinator)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   actionlib
-  aqc_mode_manager
   aqc_msgs
   mavros
   roscpp
+  rospy
+  # teleop_twist_joy
+  # teleop_twist_keyboard
   tf
-  # controllers?
 )
 
 ## System dependencies are found with CMake's conventions
@@ -108,8 +109,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES aqc_coordinator
-#  CATKIN_DEPENDS actionlib aqc_mode_manager aqc_msgs mavros roscpp
+#  LIBRARIES aqc_vel_controller_teleop
+#  CATKIN_DEPENDS actionlib aqc_msgs mavros roscpp rospy teleop_twist_joy teleop_twist_keyboard tf
 #  DEPENDS system_lib
 )
 
@@ -123,25 +124,24 @@ include_directories(include
   ${catkin_INCLUDE_DIRS}
 )
 
-
-add_library(aqc_coordinator
-  src/aqc_coordinator.cpp
+add_library(aqc_vel_controller_teleop
+  src/aqc_vel_controller_teleop.cpp
 )
-target_link_libraries(aqc_coordinator
+target_link_libraries(aqc_vel_controller_teleop
   ${catkin_LIBRARIES}
 )
 
-add_executable(aqc_coordinator_node 
-  src/aqc_coordinator_node.cpp
+add_executable(aqc_vel_controller_teleop_node
+  src/aqc_vel_controller_teleop_node.cpp
 )
-target_link_libraries(aqc_coordinator_node
-  aqc_coordinator
+target_link_libraries(aqc_vel_controller_teleop_node
+  aqc_vel_controller_teleop
   ${catkin_LIBRARIES}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/aqc_coordinator.cpp
+#   src/${PROJECT_NAME}/aqc_vel_controller_teleop.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -152,7 +152,7 @@ target_link_libraries(aqc_coordinator_node
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/aqc_coordinator_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/aqc_vel_controller_teleop_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -216,7 +216,7 @@ target_link_libraries(aqc_coordinator_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_aqc_coordinator.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_aqc_vel_controller_teleop.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

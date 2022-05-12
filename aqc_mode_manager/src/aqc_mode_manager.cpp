@@ -2,6 +2,7 @@
 
 rsp::aqc_mode_manager::aqc_mode_manager(ros::NodeHandle& nh) : nh(nh) {
 
+    pub_fcu_state = nh.advertise<mavros_msgs::State>("/fcu_state", 10);
     sub_fcu_state = nh.subscribe("/mavros/state", 10, &rsp::aqc_mode_manager::fcu_state_callback, this); 
     
     cfm_server = nh.advertiseService("change_fcu_mode", &rsp::aqc_mode_manager::change_flight_mode_service, this);
@@ -47,6 +48,8 @@ void rsp::aqc_mode_manager::fcu_state_callback(const mavros_msgs::State::ConstPt
     // std::cout << "Check conversions:  " << fcu_state_value << " " << get_fcu_state_string(fcu_state_value) << std::endl;
 
     fcu_armed = fcu_state.armed;
+
+    pub_fcu_state.publish(fcu_state);
 
 }
 

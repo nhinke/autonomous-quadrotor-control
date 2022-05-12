@@ -61,6 +61,9 @@ add_message_files(
   ArmDisarmFeedback.msg
   FCUmode.msg
   ArmDisarm.msg
+  YawStamped.msg
+  PositionStamped.msg
+  PositionSetpoint.msg
 )
 
 ## Generate services in the 'srv' folder

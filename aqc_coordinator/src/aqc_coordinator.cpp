@@ -1,7 +1,7 @@
 #include <aqc_coordinator/aqc_coordinator.hpp>
 
 // rostopic pub -1 /change_flight_mode_action/goal aqc_msgs/ChangeFlightModeActionGoal <tab-tab>
-// rostopic pub -1 /chaarm_status_action/goal aqc_msgs/ArmActionGoal <tab-tab>
+// rostopic pub -1 /change_arm_status_action/goal aqc_msgs/ArmActionGoal <tab-tab>
 
 rsp::aqc_coordinator::aqc_coordinator(ros::NodeHandle& nh) : nh(nh) {
 
@@ -10,6 +10,9 @@ rsp::aqc_coordinator::aqc_coordinator(ros::NodeHandle& nh) : nh(nh) {
 
     arm_server.reset( new ArmServer(nh, "change_arm_status_action", boost::bind(&rsp::aqc_coordinator::change_arm_status_callback, this, _1), false) );
     cfm_server.reset( new CFMServer(nh, "change_flight_mode_action", boost::bind(&rsp::aqc_coordinator::change_flight_mode_callback, this, _1), false) );
+
+    pub_quad_yaw = nh.advertise<aqc_msgs::YawStamped>("/quad_state/yaw", 10);
+    pub_quad_pos = nh.advertise<aqc_msgs::PositionStamped>("/quad_state/position", 10);
 
     sub_fcu_state = nh.subscribe("/mavros/state", 10, &rsp::aqc_coordinator::fcu_state_callback, this); 
     sub_fcu_odom = nh.subscribe("/mavros/global_position/local", 10, &rsp::aqc_coordinator::fcu_odom_callback, this); 
@@ -32,8 +35,8 @@ rsp::aqc_coordinator::~aqc_coordinator() {}
 void rsp::aqc_coordinator::fcu_state_callback(const mavros_msgs::State::ConstPtr& fcu_state_msg) {
     
     fcu_state = *fcu_state_msg;
-    std::cout << "\naqc_coordinator received fcu_state:" << std::endl;
-    std::cout << fcu_state << std::endl;
+    // std::cout << "\naqc_coordinator received fcu_state:" << std::endl;
+    // std::cout << fcu_state << std::endl;
 
     // note: not as complete as identical method in aqc_mode_manager --> b/c this probably isn't necessary here
 
@@ -53,8 +56,19 @@ void rsp::aqc_coordinator::fcu_odom_callback(const nav_msgs::Odometry::ConstPtr&
     fcu_pose.pose = fcu_odom.pose.pose;
     fcu_twist.twist = fcu_odom.twist.twist;
 
+    aqc_msgs::PositionStamped pos_msg;
+    pos_msg.header = fcu_odom.header;
+    pos_msg.ENU_position = fcu_pose.pose.position;
+
     // double fcu_yaw = tf::getYaw(fcu_pose.pose.orientation);
     // std::cout << "\naqc_coordinator received yaw: " << fcu_yaw << std::endl;
+
+    aqc_msgs::YawStamped yaw_msg;
+    yaw_msg.header = fcu_odom.header;
+    yaw_msg.yaw = tf::getYaw(fcu_pose.pose.orientation);
+
+    pub_quad_pos.publish(pos_msg);
+    pub_quad_yaw.publish(yaw_msg);
 
 }
 

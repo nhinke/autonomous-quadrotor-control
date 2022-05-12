@@ -1,0 +1,53 @@
+<launch>
+
+    <arg name="simulation" default="false"/>
+    <arg name="log_output" default="log"/>
+    <arg name="baud_rate" default="115200"/>
+    <arg name="serial_device" default="/dev/ttyUSB0"/>
+    <arg name="sim_fcu_url" default="udp://:14540@127.0.0.1:14557"/>
+
+    <arg name="pub_topic_yaw" default="/aqc/quad_state/yaw"/>
+    <arg name="pub_topic_fcu_state" default="/aqc/fcu_state"/>
+    <arg name="pub_topic_pos" default="/aqc/quad_state/posistion"/>
+
+    <arg name="sub_topic_twist_setpoint" default="/cmd_vel"/>
+
+    <arg name="start_aqc_pos_controller_px4" default="true"/>
+    <arg name="start_aqc_pos_controller_pid" default="false"/>
+    <arg name="start_aqc_pos_controller_rtt" default="false"/>
+    <arg name="start_aqc_vel_controller_teleop" default="false"/>
+
+    <arg name="print_aqc_nodes_output_to_screen" default="false"/>
+
+    <!-- launch mavros -->
+    <include file="$(find aqc_driver)/launch/mavros.launch">
+        <arg name="simulation" value="$(arg simulation)"/>
+        <arg name="log_output" value="$(arg log_output)"/>
+        <arg name="baud_rate" value="$(arg baud_rate)"/>
+        <arg name="serial_device" value="$(arg serial_device)"/>
+        <arg name="sim_fcu_url" value="$(arg sim_fcu_url)"/>
+    </include>
+
+    <!-- launch aqc_mode_manager -->
+    <include file="$(find aqc_mode_manager)/launch/aqc_mode_manager.launch">
+        <arg name="pub_topic_fcu_state" value="$(arg pub_topic_fcu_state)"/>
+        <arg name="print_outputs_to_screen" value="$(arg print_aqc_nodes_output_to_screen)"/>
+    </include>
+
+    <!-- launch aqc_coordinator -->
+    <include file="$(find aqc_coordinator)/launch/aqc_coordinator.launch">
+        <arg name="pub_topic_pos" value="$(arg pub_topic_pos)"/>
+        <arg name="pub_topic_yaw" value="$(arg pub_topic_yaw)"/>
+        <arg name="print_outputs_to_screen" value="$(arg print_aqc_nodes_output_to_screen)"/>
+    </include>
+
+    <!-- launch aqc controllers -->
+    <include file="$(find aqc_driver)/launch/aqc_controllers.launch">
+        <arg name="sub_topic_twist_setpoint" value="$(arg sub_topic_twist_setpoint)"/>
+        <arg name="start_aqc_pos_controller_px4" value="$(arg start_aqc_pos_controller_px4)"/>
+        <arg name="start_aqc_pos_controller_pid" value="$(arg start_aqc_pos_controller_pid)"/>
+        <arg name="start_aqc_pos_controller_rtt" value="$(arg start_aqc_pos_controller_rtt)"/>
+        <arg name="start_aqc_vel_controller_teleop" value="$(arg start_aqc_vel_controller_teleop)"/>
+    </include>
+
+</launch>

@@ -1,16 +1,23 @@
 <launch>
 
-    <arg name="mode_values_config_file" default="$(find aqc_mode_manager)/config/fcu_mode_values.yaml"/>
+    <!-- note: server clients within aqc_mode_manager_node that depend on mavros running -->
+
     <arg name="print_outputs_to_screen" default="true"/>
+    <arg name="pub_topic_fcu_state" default="/fcu_state"/>
+    <arg name="mode_values_config_file" default="$(find aqc_mode_manager)/config/fcu_mode_values.yaml"/>
 
     <rosparam command="load" file="$(arg mode_values_config_file)"/>
 
     <group if="$(arg print_outputs_to_screen)">
-        <node pkg="aqc_mode_manager" type="aqc_mode_manager_node" name="aqc_mode_manager_node" output="screen"/>
+        <node pkg="aqc_mode_manager" type="aqc_mode_manager_node" name="aqc_mode_manager_node" output="screen">
+            <remap from="/fcu_state" to="$(arg pub_topic_fcu_state)"/>
+        </node>
     </group>
 
     <group unless="$(arg print_outputs_to_screen)">
-        <node pkg="aqc_mode_manager" type="aqc_mode_manager_node" name="aqc_mode_manager_node"/>
+        <node pkg="aqc_mode_manager" type="aqc_mode_manager_node" name="aqc_mode_manager_node">
+            <remap from="/fcu_state" to="$(arg pub_topic_fcu_state)"/>
+        </node>
     </group>
 
 </launch>

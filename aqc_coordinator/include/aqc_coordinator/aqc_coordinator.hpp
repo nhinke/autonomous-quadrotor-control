@@ -6,6 +6,9 @@
 #include <aqc_msgs/ChangeMode.h>
 #include <aqc_msgs/ArmOrDisarm.h>
 
+#include <aqc_msgs/YawStamped.h>
+#include <aqc_msgs/PositionStamped.h>
+
 #include <std_msgs/Bool.h>
 #include <nav_msgs/Odometry.h>
 #include <mavros_msgs/State.h>
@@ -35,6 +38,9 @@ namespace rsp {
 
             ros::Subscriber sub_fcu_odom;
             ros::Subscriber sub_fcu_state;
+
+            ros::Publisher pub_quad_yaw;
+            ros::Publisher pub_quad_pos;
 
             // nav_msgs::Odometry fcu_odom;
             mavros_msgs::State fcu_state;

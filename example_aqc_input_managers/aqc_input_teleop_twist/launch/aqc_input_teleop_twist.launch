@@ -1,0 +1,40 @@
+<launch>
+
+    <arg name="simulation" default="false"/>
+    <arg name="log_output" default="log"/>
+    <arg name="baud_rate" default="115200"/>
+    <arg name="serial_device" default="/dev/ttyUSB0"/>
+    <arg name="sim_fcu_url" default="udp://:14540@127.0.0.1:14557"/>
+
+    <arg name="sub_topic_twist_setpoint" default="/aqc/cmd_vel"/>
+ 
+    <!-- launch teleop twist input node -->
+    <node pkg="aqc_input_teleop_twist" type="aqc_teleop_twist_keyboard_cpp" name="aqc_teleop_twist_keyboard_cpp" output="screen">
+        <remap from="/cmd_vel" to="$(arg sub_topic_twist_setpoint)"/>
+    </node>
+
+    <!-- launch aqc simulation driver -->
+    <group if="$(arg simulation)">
+        <include file="$(find aqc_driver)/launch/aqc_sim.launch">
+            <arg name="sim_fcu_url" value="$(arg sim_fcu_url)"/>
+            <arg name="start_aqc_pos_controller_pid" value="false"/>
+            <arg name="start_aqc_pos_controller_rtt" value="false"/>
+            <arg name="start_aqc_vel_controller_teleop" value="true"/>
+            <arg name="sub_topic_twist_setpoint" value="$(arg sub_topic_twist_setpoint)"/>
+        </include>
+    </group>
+
+    <!-- launch aqc hardware driver -->
+    <group unless="$(arg simulation)">
+        <include file="$(find aqc_driver)/launch/aqc_driver.launch">
+            <arg name="log_output" value="$(arg log_output)"/>
+            <arg name="baud_rate" value="$(arg baud_rate)"/>
+            <arg name="serial_device" value="$(arg serial_device)"/>
+            <arg name="start_aqc_pos_controller_pid" value="false"/>
+            <arg name="start_aqc_pos_controller_rtt" value="false"/>
+            <arg name="start_aqc_vel_controller_teleop" value="true"/>
+            <arg name="sub_topic_twist_setpoint" value="$(arg sub_topic_twist_setpoint)"/>
+        </include>
+    </group>
+
+</launch>

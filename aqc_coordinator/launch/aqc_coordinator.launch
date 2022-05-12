@@ -1,0 +1,23 @@
+<launch>
+
+    <!-- note: server clients within aqc_coordinator_node that depend on aqc_mode_manager_node running -->
+
+    <arg name="print_outputs_to_screen" default="true"/>
+    <arg name="pub_topic_yaw" default="/quad_state/yaw"/>
+    <arg name="pub_topic_pos" default="/quad_state/position"/>
+
+    <group if="$(arg print_outputs_to_screen)">
+        <node pkg="aqc_coordinator" type="aqc_coordinator_node" name="aqc_coordinator_node" output="screen">
+            <remap from="/quad_state/yaw" to="$(arg pub_topic_yaw)"/>
+            <remap from="/quad_state/position" to="$(arg pub_topic_pos)"/>
+        </node>
+    </group>
+
+    <group unless="$(arg print_outputs_to_screen)">
+        <node pkg="aqc_coordinator" type="aqc_coordinator_node" name="aqc_coordinator_node">
+            <remap from="/quad_state/yaw" to="$(arg pub_topic_yaw)"/>
+            <remap from="/quad_state/position" to="$(arg pub_topic_pos)"/>
+        </node>
+    </group>
+
+</launch>

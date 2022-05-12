@@ -35,6 +35,7 @@ namespace rsp {
             int mode_val_takeoff;
         
             ros::NodeHandle nh;
+            ros::Publisher pub_fcu_state;
             ros::Subscriber sub_fcu_state;
             ros::ServiceServer cfm_server;
             ros::ServiceServer arm_server;
