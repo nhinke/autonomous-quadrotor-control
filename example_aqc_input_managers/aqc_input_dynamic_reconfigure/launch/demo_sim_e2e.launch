@@ -1,0 +1,31 @@
+<launch>
+
+    <!-- e2e = end-to-end -->
+
+	<!-- note that this launch file is for convenience and illustrative purposes ONLY -->
+    <!--    in reality, you should always run either aqc_driver.launch or aqc_sim.launch as its own "server side" (on physical hardware, aqc_driver will be running on the vehicle's companion computer) -->
+    <!--    then, you should run one of the input nodes separately to act as the "client side" that only communicates with the server side, NOT the vehicle directly (on physical hardware, this input node will be running on your laptop/GCS or any other desired peripheral (e.g. raspberry pi running a single client node that is using automatic speech recognition to generate commands for the server side )) -->
+
+    <arg name="log_output" default="log"/>
+    <arg name="controller_rate_hz" default="60"/>
+    <arg name="sim_fcu_url" default="udp://:14540@127.0.0.1:14557"/>
+    <arg name="topic_for_position_setpoints" default="/aqc/cmd_pos"/>
+
+    <!-- launch aqc_sim.launch (server side) -->
+    <include file="$(find aqc_driver)/launch/aqc_sim.launch">
+        <arg name="log_output" value="$(arg log_output)"/>
+        <arg name="sim_fcu_url" value="$(arg sim_fcu_url)"/>
+        <arg name="controller_rate_hz" value="$(arg controller_rate_hz)"/>
+        <arg name="sub_topic_position_setpoint" value="$(arg topic_for_position_setpoints)"/>
+        <arg name="start_aqc_pos_controller_px4" value="true"/>
+        <arg name="start_aqc_pos_controller_pid" value="false"/>
+        <arg name="start_aqc_pos_controller_rtt" value="false"/>
+        <arg name="start_aqc_vel_controller_teleop" value="false"/>
+    </include>
+
+    <!-- launch aqc_input_dynamic_reconfigure.launch (client side) -->
+    <include file="$(find aqc_input_dynamic_reconfigure)/launch/aqc_input_dynamic_reconfigure.launch">
+        <arg name="pub_topic_position_setpoint" value="$(arg topic_for_position_setpoints)"/>
+    </include>
+
+</launch>

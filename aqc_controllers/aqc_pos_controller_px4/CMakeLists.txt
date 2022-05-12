@@ -8,11 +8,11 @@ project(aqc_pos_controller_px4)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  actionlib
+  # actionlib
   aqc_msgs
   mavros
   roscpp
-  rospy
+  # rospy
   tf
   dynamic_reconfigure
 )
@@ -92,9 +92,9 @@ find_package(catkin REQUIRED COMPONENTS
 ##     and list every .cfg file to be processed
 
 ## Generate dynamic reconfigure parameters in the 'cfg' folder
-generate_dynamic_reconfigure_options(
-  cfg/aqc_controller_dr.cfg
-)
+# generate_dynamic_reconfigure_options(
+#   cfg/aqc_controller_dr.cfg
+# )
 
 ###################################
 ## catkin specific configuration ##

@@ -1,39 +1,10 @@
 <launch>
 
-    <arg name="simulation" default="false"/>
-    <arg name="log_output" default="log"/>
-    <arg name="baud_rate" default="115200"/>
-    <arg name="serial_device" default="/dev/ttyUSB0"/>
-    <arg name="sim_fcu_url" default="udp://:14540@127.0.0.1:14557"/>
+    <arg name="pub_topic_position_setpoint" default="/aqc/cmd_pos"/>
 
-    <arg name="sub_topic_position_setpoint" default="/aqc/cmd_pos"/>
-
-    <!-- launch aqc simulation driver -->
-    <group if="$(arg simulation)">
-        <include file="$(find aqc_driver)/launch/aqc_sim.launch">
-            <arg name="sim_fcu_url" value="$(arg sim_fcu_url)"/>
-            <arg name="start_aqc_pos_controller_px4" value="true"/>
-            <arg name="start_aqc_pos_controller_pid" value="false"/>
-            <arg name="start_aqc_pos_controller_rtt" value="false"/>
-            <arg name="start_aqc_vel_controller_teleop" value="false"/>
-            <arg name="sub_topic_position_setpoint" value="$(arg sub_topic_position_setpoint)"/>
-        </include>
-    </group>
-
-    <!-- launch aqc hardware driver -->
-    <group unless="$(arg simulation)">
-        <include file="$(find aqc_driver)/launch/aqc_driver.launch">
-            <arg name="log_output" value="$(arg log_output)"/>
-            <arg name="baud_rate" value="$(arg baud_rate)"/>
-            <arg name="serial_device" value="$(arg serial_device)"/>
-            <arg name="start_aqc_pos_controller_px4" value="true"/>
-            <arg name="start_aqc_pos_controller_pid" value="false"/>
-            <arg name="start_aqc_pos_controller_rtt" value="false"/>
-            <arg name="start_aqc_vel_controller_teleop" value="false"/>
-            <arg name="sub_topic_position_setpoint" value="$(arg sub_topic_position_setpoint)"/>
-        </include>
-    </group>
-
+    <node pkg="aqc_input_dynamic_reconfigure" type="aqc_input_client_dr_node" name="aqc_input_client_dr_node">
+        <remap from="/cmd_position" to="$(arg pub_topic_position_setpoint)"/>
+    </node>
 
     <!-- launch rqt dynamic reconfiguration gui and load default parameters from config file -->
     <!-- <arg name="dr_config_file" default="$(find assignment10)/config/default.yaml"/> -->

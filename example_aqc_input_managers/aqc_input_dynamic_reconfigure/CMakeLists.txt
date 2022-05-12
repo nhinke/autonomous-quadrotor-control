@@ -19,7 +19,6 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
-
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
@@ -90,11 +89,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * uncomment the "generate_dynamic_reconfigure_options" section below
 ##     and list every .cfg file to be processed
 
-## Generate dynamic reconfigure parameters in the 'cfg' folder
-# generate_dynamic_reconfigure_options(
-#   cfg/DynReconf1.cfg
-#   cfg/DynReconf2.cfg
-# )
+# Generate dynamic reconfigure parameters in the 'cfg' folder
+generate_dynamic_reconfigure_options(
+  cfg/AqcInputClient.cfg
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -118,10 +116,25 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(
-# include
+include_directories(include
   ${catkin_INCLUDE_DIRS}
 )
+
+add_library(aqc_input_client_dr
+  src/aqc_input_client_dr.cpp
+)
+target_link_libraries(aqc_input_client_dr
+  ${catkin_LIBRARIES}
+)
+
+add_executable(aqc_input_client_dr_node
+  src/aqc_input_client_dr_node.cpp
+)
+target_link_libraries(aqc_input_client_dr_node
+  aqc_input_client_dr
+  ${catkin_LIBRARIES}
+)
+
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}

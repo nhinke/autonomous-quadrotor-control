@@ -3,6 +3,7 @@
     <arg name="log_output" default="log"/>
     <arg name="sim_fcu_url" default="udp://:14540@127.0.0.1:14557"/>
 
+    <arg name="controller_rate_hz" default="60"/>
     <arg name="start_aqc_pos_controller_px4" default="true"/>
     <arg name="start_aqc_pos_controller_pid" default="false"/>
     <arg name="start_aqc_pos_controller_rtt" default="false"/>
@@ -19,6 +20,7 @@
         <arg name="simulation" value="true"/>
         <arg name="log_output" value="$(arg log_output)"/>
         <arg name="sim_fcu_url" value="$(arg sim_fcu_url)"/>
+        <arg name="controller_rate_hz" value="$(arg controller_rate_hz)"/>
         <arg name="sub_topic_twist_setpoint" value="$(arg sub_topic_twist_setpoint)"/>
         <arg name="sub_topic_position_setpoint" value="$(arg sub_topic_position_setpoint)"/>
         <arg name="start_aqc_pos_controller_px4" value="$(arg start_aqc_pos_controller_px4)"/>
