@@ -6,22 +6,17 @@
     <arg name="serial_device" default="/dev/ttyUSB0"/>
     <arg name="sim_fcu_url" default="udp://:14540@127.0.0.1:14557"/>
 
-    <arg name="sub_topic_twist_setpoint" default="/aqc/cmd_vel"/>
- 
-    <!-- launch teleop twist input node -->
-    <node pkg="aqc_input_teleop_twist" type="aqc_teleop_twist_keyboard_cpp" name="aqc_teleop_twist_keyboard_cpp" output="screen">
-        <remap from="/cmd_vel" to="$(arg sub_topic_twist_setpoint)"/>
-    </node>
+    <arg name="sub_topic_position_setpoint" default="/aqc/cmd_pos"/>
 
     <!-- launch aqc simulation driver -->
     <group if="$(arg simulation)">
         <include file="$(find aqc_driver)/launch/aqc_sim.launch">
             <arg name="sim_fcu_url" value="$(arg sim_fcu_url)"/>
-            <arg name="start_aqc_pos_controller_px4" value="false"/>
+            <arg name="start_aqc_pos_controller_px4" value="true"/>
             <arg name="start_aqc_pos_controller_pid" value="false"/>
             <arg name="start_aqc_pos_controller_rtt" value="false"/>
-            <arg name="start_aqc_vel_controller_teleop" value="true"/>
-            <arg name="sub_topic_twist_setpoint" value="$(arg sub_topic_twist_setpoint)"/>
+            <arg name="start_aqc_vel_controller_teleop" value="false"/>
+            <arg name="sub_topic_position_setpoint" value="$(arg sub_topic_position_setpoint)"/>
         </include>
     </group>
 
@@ -31,12 +26,18 @@
             <arg name="log_output" value="$(arg log_output)"/>
             <arg name="baud_rate" value="$(arg baud_rate)"/>
             <arg name="serial_device" value="$(arg serial_device)"/>
-            <arg name="start_aqc_pos_controller_px4" value="false"/>
+            <arg name="start_aqc_pos_controller_px4" value="true"/>
             <arg name="start_aqc_pos_controller_pid" value="false"/>
             <arg name="start_aqc_pos_controller_rtt" value="false"/>
-            <arg name="start_aqc_vel_controller_teleop" value="true"/>
-            <arg name="sub_topic_twist_setpoint" value="$(arg sub_topic_twist_setpoint)"/>
+            <arg name="start_aqc_vel_controller_teleop" value="false"/>
+            <arg name="sub_topic_position_setpoint" value="$(arg sub_topic_position_setpoint)"/>
         </include>
     </group>
+
+
+    <!-- launch rqt dynamic reconfiguration gui and load default parameters from config file -->
+    <!-- <arg name="dr_config_file" default="$(find assignment10)/config/default.yaml"/> -->
+    <node name="rqt_reconfigure_gui" pkg="rqt_reconfigure" type="rqt_reconfigure" output="screen"/>
+    <!-- <node name="reconfigure_load_params" pkg="dynamic_reconfigure" type="dynparam" args="load /$(arg turtle_server_node_name) $(arg dr_config_file)"/> -->
 
 </launch>

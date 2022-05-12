@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(aqc_pos_controller_px4)
+project(aqc_input_dynamic_reconfigure)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -9,12 +9,11 @@ project(aqc_pos_controller_px4)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   actionlib
+  aqc_driver
   aqc_msgs
-  mavros
+  dynamic_reconfigure
   roscpp
   rospy
-  tf
-  dynamic_reconfigure
 )
 
 ## System dependencies are found with CMake's conventions
@@ -92,9 +91,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##     and list every .cfg file to be processed
 
 ## Generate dynamic reconfigure parameters in the 'cfg' folder
-generate_dynamic_reconfigure_options(
-  cfg/aqc_controller_dr.cfg
-)
+# generate_dynamic_reconfigure_options(
+#   cfg/DynReconf1.cfg
+#   cfg/DynReconf2.cfg
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -107,8 +107,8 @@ generate_dynamic_reconfigure_options(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES aqc_pos_controller_px4
-#  CATKIN_DEPENDS actionlib aqc_msgs dynamic_reconfigure mavros roscpp tf
+#  LIBRARIES aqc_input_dynamic_reconfigure
+#  CATKIN_DEPENDS actionlib aqc_driver aqc_msgs dynamic_reconfigure roscpp rospy
 #  DEPENDS system_lib
 )
 
@@ -118,29 +118,14 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include 
+include_directories(
+# include
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(aqc_pos_controller_px4
-  src/aqc_pos_controller_px4.cpp
-)
-target_link_libraries(aqc_pos_controller_px4
-  ${catkin_LIBRARIES}
-)
-
-add_executable(aqc_pos_controller_px4_node
-  src/aqc_pos_controller_px4_node.cpp
-)
-target_link_libraries(aqc_pos_controller_px4_node
-  aqc_pos_controller_px4
-  ${catkin_LIBRARIES}
-)
-
-
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/aqc_pos_controller_px4.cpp
+#   src/${PROJECT_NAME}/aqc_input_dynamic_reconfigure.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -151,7 +136,7 @@ target_link_libraries(aqc_pos_controller_px4_node
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/aqc_pos_controller_px4_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/aqc_input_dynamic_reconfigure_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -215,7 +200,7 @@ target_link_libraries(aqc_pos_controller_px4_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_aqc_pos_controller_px4.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_aqc_input_dynamic_reconfigure.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
