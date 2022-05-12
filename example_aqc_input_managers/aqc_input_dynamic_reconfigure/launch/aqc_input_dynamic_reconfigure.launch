@@ -1,9 +1,13 @@
 <launch>
 
+    <arg name="sub_topic_fcu_state" default="/aqc/fcu_state"/>
     <arg name="pub_topic_position_setpoint" default="/aqc/cmd_pos"/>
+    <arg name="sub_topic_quad_pos" default="/aqc/quad_state/position"/>
 
-    <node pkg="aqc_input_dynamic_reconfigure" type="aqc_input_client_dr_node" name="aqc_input_client_dr_node">
+    <node pkg="aqc_input_dynamic_reconfigure" type="aqc_input_client_dr_node" name="aqc_input_client_dr_node" output="screen">
         <remap from="/cmd_position" to="$(arg pub_topic_position_setpoint)"/>
+        <remap from="/fcu_state" to="$(arg sub_topic_fcu_state)"/>
+        <remap from="/quad_state/position" to="$(arg sub_topic_quad_pos)"/>
     </node>
 
     <!-- launch rqt dynamic reconfiguration gui and load default parameters from config file -->

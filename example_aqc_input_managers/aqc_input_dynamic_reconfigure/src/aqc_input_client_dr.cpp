@@ -1,9 +1,11 @@
 #include <aqc_input_dynamic_reconfigure/aqc_input_client_dr.hpp>
 
 rsp::aqc_input_client_dr::aqc_input_client_dr(ros::NodeHandle& nh) : 
-    nh(nh), setpoint_x(0.0), setpoint_y(0.0), setpoint_z(4.0), setpoint_yaw(0.0), first_call_flag(true) {
+    nh(nh), setpoint_x(0.0), setpoint_y(0.0), setpoint_z(4.0), setpoint_yaw(0.0), zero_pos_x(0.0), zero_pos_y(0.0), current_x(0.0), current_y(0.0), first_call_flag(true), in_offboard_mode(false) {
 
     pub_pos_setpoint = nh.advertise<aqc_msgs::PositionSetpoint>("/cmd_position", 10);
+    sub_fcu_state = nh.subscribe("/fcu_state", 10, &rsp::aqc_input_client_dr::fcu_state_callback, this);
+    sub_quad_pos = nh.subscribe("/quad_state/position", 10, &rsp::aqc_input_client_dr::quad_pos_callback, this);
 
     arm_client.reset( new ArmClient(nh, "change_arm_status_action") );
     cfm_client.reset( new CfmClient(nh, "change_flight_mode_action") );
@@ -23,6 +25,26 @@ rsp::aqc_input_client_dr::aqc_input_client_dr(ros::NodeHandle& nh) :
 
 rsp::aqc_input_client_dr::~aqc_input_client_dr() {}
 
+void rsp::aqc_input_client_dr::fcu_state_callback(const mavros_msgs::State::ConstPtr& fcu_state_msg) {
+
+    // xy position stored when not in offboard mode to have a new zero position from which the dynamic reconfigure parameters are relative
+    mavros_msgs::State fcu_state = *fcu_state_msg;
+    in_offboard_mode = (fcu_state.mode == fcu_state.MODE_PX4_OFFBOARD);
+
+}
+
+void rsp::aqc_input_client_dr::quad_pos_callback(const aqc_msgs::PositionStamped::ConstPtr& quad_pos_msg) {
+
+    aqc_msgs::PositionStamped current_pos = *quad_pos_msg;
+    current_x = current_pos.ENU_position.x;
+    current_y = current_pos.ENU_position.y;
+    if (!in_offboard_mode) {
+        zero_pos_x = current_x;
+        zero_pos_y = current_y;
+    }
+
+}
+
 void rsp::aqc_input_client_dr::dr_server_callback(aqc_input_dynamic_reconfigure::AqcInputClientConfig& config, uint32_t level) {
 
     bool new_position_setpoint = false;
@@ -33,15 +55,13 @@ void rsp::aqc_input_client_dr::dr_server_callback(aqc_input_dynamic_reconfigure:
         return;
     }
 
-    if ((level & 1) == 1) {
+    if ((level & 1) == 1 || (level & 2) == 2) {
         // std::cout << "\nnew east setpoint: " << (config.east_setpoint) << std::endl;
-        setpoint_x = config.east_setpoint;
-        new_position_setpoint = true;
-    }
-
-    if ((level & 2) == 2) {
         // std::cout << "\nnew north setpoint: " << (config.north_setpoint) << std::endl;
-        setpoint_y = config.north_setpoint;
+        // setpoint_x = config.east_setpoint; // for absolute position setpoints
+        // setpoint_y = config.north_setpoint; // for absolute position setpoints
+        setpoint_x = config.east_setpoint + zero_pos_x; // for relative position setpoints w.r.t. zero wherever offboard mode was entered
+        setpoint_y = config.north_setpoint + zero_pos_y; // for relative position setpoints w.r.t. zero wherever offboard mode was entered
         new_position_setpoint = true;
     }
 
@@ -65,6 +85,12 @@ void rsp::aqc_input_client_dr::dr_server_callback(aqc_input_dynamic_reconfigure:
     if ((level & 32) == 32) {
         // std::cout << "\nnew cfm request: " << (config.cfm_request) << std::endl;
         make_cfm_request(config.cfm_request);
+    }
+
+    if (!in_offboard_mode) {
+        setpoint_x = zero_pos_x;
+        setpoint_y = zero_pos_y;
+        new_position_setpoint = true;
     }
 
     if (new_position_setpoint) {
