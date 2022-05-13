@@ -42,8 +42,8 @@ It should also be noted that AQC was created using ROS Melodic on Ubuntu 18.0.4 
 
 ## Demo Videos
 
-1. [Brief Hardware Tour](https://www.youtube.com/watch?v=1UGx2_VTam8&t=11s)
-2. [Demo]()
+1. [Brief Hardware Setup Tour](https://youtu.be/1UGx2_VTam8)
+2. [Using AQC to Cont]()
 
 
 ## Software
@@ -117,6 +117,10 @@ $ cd
 ## Hardware
 
 This section will focus exclusively on the hardware setup that I used for testing this library; however, there are infinitely many other hardware combinations (e.g. choice of airframe, companion computer, FCU, radios, etc.) that would be supported by this library.
+
+![x500-im1](/doc/images/x500-1.HEIC)
+
+![x500-im2](/doc/images/x500-1.HEIC)
 
 ### Hardware Requirements
 
