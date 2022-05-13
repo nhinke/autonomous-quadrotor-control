@@ -4,7 +4,7 @@ Description/Purpose
 
 Sections:
 <ol>
-  <li>[Software Description](#Software)</li>
+  <li>[Software Description](#software)</li>
     <ol>
       <li>[Dependencies](#software-dependencies)</li>
       <li>[Simulation](#sitl-simulation)</li>
