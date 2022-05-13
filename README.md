@@ -1,6 +1,6 @@
 # Autonomous Quadrotor Control Library (AQC)
 
-Repository developed by Nick Hinke for 530.707 Robot System Programming (Spring '22)
+Repository developed by Nick Hinke for EN.530.707 Robot System Programming (Spring '22)
 
 ## README Contents
 1. [Brief Description](#brief-description)
@@ -124,7 +124,7 @@ This section will focus exclusively on the hardware setup that I used for testin
 </p>
 
 <p align="center">
-  <img src="/doc/images/x500-2.png" alt="x500 close-up" style="width:70%;"/>
+  <img src="/doc/images/x500-2.png" alt="x500 close-up" style="width:75%;"/>
 </p>
 
 <!-- <center><img src="doc/images/x500-1.png" alt="x500 with GCS" style="width: 80%;"/></center>
