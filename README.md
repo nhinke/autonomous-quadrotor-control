@@ -1,29 +1,40 @@
 # Autonomous Quadrotor Control Library (AQC)
 
-Description/Purpose
+### Brief Description
 
-The Autonomous Quadrotor Control Library (henceforth known as AQC), was created with the intention of making software development for autonomous quadrotors *much* easier. This library currently only targets the [PX4-Autopilot](https://px4.io/) software, but could be extended to additionally support [Ardupilot](https://ardupilot.org/). Additionally, despite its name, this library supports any multicopter that is supported by PX4.
+The Autonomous Quadrotor Control Library (henceforth known as AQC), was created with the intention of making software development for autonomous quadrotors *much* easier. AQC currently only targets the [PX4-Autopilot](https://px4.io/) software, but could be extended to additionally support [Ardupilot](https://ardupilot.org/). Additionally, despite its name, AQC supports any flavor of multicopter supported by PX4.
 
-At its core, this library exists to serve two main purposes:
+At its core, AQC exists to serve two main purposes:
 1. Provide a framework within which to easily (and quickly!) develop deployable software that targets real, physical hardware.
 2. Provide an interface that is agnostic to the output so that all of your code can remain exactly the same (with the exception of a single launch file) when switching between simulation and physical hardware.
 
-TODO
+To accomplish these objectives, AQC implements a variety of features that will help speed up your development of any autonomnous behaviors, including:
+- A variety of controllers to which vehicle setpoints can be published (currently supports both position and velocity setpoints)
+- A variety of servers capable of changing the state of the vehicle (e.g. arm/disarm the vehicle, change vehicle flight mode)
+- A one-stop shop to retrieve useful information regarding the state of the vehicle
+- An extensive set of chained launch files that allow you to launch everything you need for a full Gazebo simulation (or with real hardware!) with just one file
+- Support for any type of input that you want to provide (see the [Future Work](#future-work) section)
 
-This library was created using ROS Melodic on Ubuntu 18.0.4 LTS, and its formatting was partially inspired by the ROS Industrial [universal robot meta-package](https://github.com/fmauch/universal_robot). 
+In order to take advantage of these features, one need only launch the AQC driver (with your desired arguments set accordingly) on the appropriate device ([aqc_driver.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_driver.launch) for physical hardware, or [aqc_sim.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_sim.launch) for simulation). This will launch everything required for AQC to run as a "server side" for any autonomous behaviors, and will remain completely consistent across both Gazebo simulations and physical hardware. From there, you can either use one of the provided [input clients](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients)
 
-#### README Sections:
+In order to use AQC with physical hardware, a multicopter equipped with a companion computer that supports ROS and WiFi networking (e.g. Raspberry Pi or NVIDIA Jetson) is required. Since AQC was designed to act as the "server side" for any autonomous behaviors, a collection of nodes within it will be running on the companion computer (which will be also hosting the ROS Master). To communicate with AQC, one need only connect their 
+
+It should also be noted that AQC was created using ROS Melodic on Ubuntu 18.0.4 LTS, and its formatting was partially inspired by the ROS Industrial [universal robot meta-package](https://github.com/fmauch/universal_robot). 
+
+### README Sections:
 1. [Demo Videos](#demo-videos)
 2. [Software Description](#software)
 	1. [Dependencies](#software-dependencies)
-	2. [SITL Simulation](#configuring-and-running-sitl-simulation)
+	2. [Ss]()
 	3. [Using an Existing Input Client](#how-to-use-an-existing-input-client)
 	4. [Writing a New Input Client](#how-to-write-a-new-input-client)
+	5. [SITL Simulation](#configuring-and-running-sitl-simulation)
 3. [Hardware Description](#hardware)
 	1. [Requirements](#hardware-requirements)
 	2. [Running on Hardware](#configuring-and-running-on-hardware)
 4. [Future Work](#future-work)
 5. [Overview of Each Package](#overview-of-each-package)
+6. [Personal Remarks](#personal-remarks)
 
 
 ## Demo Videos
@@ -126,3 +137,6 @@ requirements:
 
 
 ## Overview of each Package
+
+
+## Personal Remarks
