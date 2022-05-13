@@ -42,8 +42,10 @@ It should also be noted that AQC was created using ROS Melodic on Ubuntu 18.0.4 
 
 ## Demo Videos
 
-1. [Brief Hardware Setup Tour](https://youtu.be/1UGx2_VTam8)
-2. [Using AQC to Cont]()
+See YouTube video descriptions @ the links below for more information regarding each demo video.
+
+1. [Demo1](https://youtu.be/1UGx2_VTam8) - brief hardware tour of physical hardware used to test AQC 
+2. [Demo2](https://youtu.be/2gCSITocHEE) - demonstration of using one of the provided AQC [input clients](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients) to publish position setpoints (the highest level of control available) from a laptop ground control station (GCS) to the AQC driver running on the vehicle's companion computer
 
 
 ## Software
