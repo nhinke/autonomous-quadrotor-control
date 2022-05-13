@@ -4,6 +4,8 @@ Description/Purpose
 
 Sections:
 1. [Software Description](#software)
+	a. D
+2. [Hardware Description](#hardware)
 <ol>
   <li>[Software Description](#software)</li>
     <ol>
