@@ -3,23 +3,29 @@
 Description/Purpose
 
 Sections:
-1. [Software Description](#Software)
-  a. Dependencies
-2. Hardware Description
-3. Future Work
-2. [Hardware Requirements](#Hardware Requirements)
-3. [Configuring Simulation](#Configuring Simulation)
+<ol>
+  <li>[Software Description](#Software)</li>
+    <ol>
+      <li>[Dependencies](#Dependencies)</li>
+      <li>[Simulation](#Configuring and Running SITL Simulation)</li>
+    </ol>
+  <li>[Hardware Description](#Hardware)</li>
+    <ol>
+      <li>[Requirements](#Requirements)</li>
+    </ol>
+  <li>[Future Work](#Future Work)</li>
+</ol>
 
 ## Software
 
-### Software Dependencies
+### Dependencies
 
 
-### Configuring and Running in (SITL) Simulation
+### Configuring and Running SITL Simulation
 
 ```bash
 $ cd
-
+```
 
 ### How to Use and Existing Input Client
 
