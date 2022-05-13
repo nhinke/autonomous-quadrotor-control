@@ -1,5 +1,7 @@
 # Autonomous Quadrotor Control Library (AQC)
 
+Developed by Nick Hinke for 530.707 Robot System Programming (Spring '22)
+
 ## README Contents
 1. [Brief Description](#brief-description)
 2. [Demo Videos](#demo-videos)
