@@ -1,4 +1,4 @@
-# Autonomous Quadrotor Control Library (AQC or AQCL)
+# Autonomous Quadrotor Control Library (AQC)
 
 Description/Purpose
 
@@ -8,6 +8,9 @@ At its core, this library exists to serve two main purposes:
 1. Provide a framework within which to easily (and quickly!) develop deployable software that targets real, physical hardware.
 2. Provide an interface that is agnostic to the output so that all of your code can remain exactly the same (with the exception of a single launch file) when switching between simulation and physical hardware.
 
+TODO
+
+This library was created using ROS Melodic on Ubuntu 18.0.4 LTS, and its formatting was partially inspired by the ROS Industrial [universal robot meta-package](https://github.com/fmauch/universal_robot). 
 
 #### README Sections:
 1. [Demo Videos](#demo-videos)
@@ -37,7 +40,7 @@ At its core, this library exists to serve two main purposes:
 
 #### 2. [QGroundControl](https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.html)
 
-This is a ground control software that enables communication between a "ground control station" (GCS) and the flight controller unit (FCU). It also provides an easy interface to update firmware and/or configuration parameters of the FCU, and an extremely helpful GUI that displays a lot of information about the vehicle during flight (both in real life and in simulation). Note that the latest stable version of QGC only officially supports Ubuntu 20.0.4 and later due to video streaming issues, but I have had experienced no errors thus far. If you do encounter problems, older stable versions can be downloaded [here](https://github.com/mavlink/qgroundcontrol/releases/).
+This is a ground control software that enables communication between a "ground control station" (GCS) and the flight controller unit (FCU). It also provides an easy interface to update firmware and/or configuration parameters of the FCU, and an extremely helpful GUI that displays a lot of information about the vehicle during flight (both in real life and in simulation). Note that the latest stable version of QGC only *officially* supports Ubuntu 20.0.4 and later due to video streaming issues, but I have had experienced no errors thus far. If you do encounter problems, older stable versions can be downloaded [here](https://github.com/mavlink/qgroundcontrol/releases/).
 
 To install: 
 ```bash
@@ -122,3 +125,4 @@ requirements:
 ## Future Work
 
 
+## Overview of each Package
