@@ -120,11 +120,11 @@ This section will focus exclusively on the hardware setup that I used for testin
 
 
 <p align="center">
-  <img src="/doc/images/x500-1.png" alt="x500 with GCS" style="width:80%;height:10%"/>
+  <img src="/doc/images/x500-1.png" alt="x500 with GCS" style="width:60%;"/>
 </p>
 
 <p align="center">
-  <img src="/doc/images/x500-2.png" alt="x500 close-up" style="width:20%;height:10%"/>
+  <img src="/doc/images/x500-2.png" alt="x500 close-up" style="width:70%;"/>
 </p>
 
 <!-- <center><img src="doc/images/x500-1.png" alt="x500 with GCS" style="width: 80%;"/></center>
