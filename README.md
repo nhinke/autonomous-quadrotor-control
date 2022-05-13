@@ -33,10 +33,12 @@ $ cd
 ### How to Write a New Input Client
 
 
-### Hardware Requirements
+## Hardware
+
+### Requirements
 
 
 ### Configuring and Running on Hardware 
 
 
-### D
+## Future Work
