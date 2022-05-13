@@ -118,8 +118,17 @@ $ cd
 
 This section will focus exclusively on the hardware setup that I used for testing this library; however, there are infinitely many other hardware combinations (e.g. choice of airframe, companion computer, FCU, radios, etc.) that would be supported by this library.
 
-<center><img src="doc/images/x500-1.png" alt="x500 with GCS" style="width: 80%;"/></center>
-<center><img src="doc/images/x500-2.png" alt="x500 close-up" style="width: 80%;"/></center>
+
+<p align="center">
+  <img src="/doc/images/x500-1.png" alt="x500 with GCS" style="width:80%;height:10%"/>
+</p>
+
+<p align="center">
+  <img src="/doc/images/x500-2.png" alt="x500 close-up" style="width:20%;height:10%"/>
+</p>
+
+<!-- <center><img src="doc/images/x500-1.png" alt="x500 with GCS" style="width: 80%;"/></center>
+<center><img src="doc/images/x500-2.png" alt="x500 close-up" style="width: 80%;"/></center> -->
 <!-- ![x500-im1](/doc/images/x500-1.png) -->
 <!-- ![x500-im2](/doc/images/x500-2.png) -->
 
