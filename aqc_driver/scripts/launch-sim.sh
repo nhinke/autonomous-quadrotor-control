@@ -26,4 +26,6 @@ else
     echo "ERROR: invalid model choice, using default value of IRIS"
     launch_cmd="gazebo"
 fi
-(cd ~/PX4-Autopilot && make px4_sitl $launch_cmd)
+
+px4="$(locate locate PX4-Autopilot | grep /PX4-Autopilot$)"
+(cd $px4 && make px4_sitl $launch_cmd)
