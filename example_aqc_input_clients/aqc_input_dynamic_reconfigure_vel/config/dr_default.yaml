@@ -1,0 +1,27 @@
+!!python/object/new:dynamic_reconfigure.encoding.Config
+dictitems:
+  arm_request: 0
+  cfm_request: 3
+  east_rate_setpoint: 0.0
+  groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+    dictitems:
+      arm_request: 0
+      cfm_request: 3
+      east_rate_setpoint: 0.0
+      groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      id: 0
+      name: Default
+      north_rate_setpoint: 0.0
+      parameters: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      parent: 0
+      state: true
+      type: ''
+      up_rate_setpoint: 0.0
+      yaw_rate_setpoint: 0.0
+    state: []
+  north_rate_setpoint: 0.0
+  up_rate_setpoint: 0.0
+  yaw_rate_setpoint: 0.0
+state: []

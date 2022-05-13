@@ -5,7 +5,7 @@
 #include <aqc_msgs/PositionSetpoint.h>
 
 #include <dynamic_reconfigure/server.h>
-#include <aqc_input_dynamic_reconfigure/AqcInputClientConfig.h>
+#include <aqc_input_dynamic_reconfigure_pos/AqcInputClientPosConfig.h>
 
 #include <aqc_msgs/ArmAction.h>
 #include <aqc_msgs/ChangeFlightModeAction.h>
@@ -13,7 +13,7 @@
 
 namespace rsp {
 
-    class aqc_input_client_dr {
+    class aqc_input_client_dr_pos {
 
         private:
 
@@ -30,8 +30,8 @@ namespace rsp {
             double setpoint_x, setpoint_y, setpoint_z, setpoint_yaw;
 
             bool first_call_flag;
-            dynamic_reconfigure::Server<aqc_input_dynamic_reconfigure::AqcInputClientConfig> server;
-            dynamic_reconfigure::Server<aqc_input_dynamic_reconfigure::AqcInputClientConfig>::CallbackType callback;
+            dynamic_reconfigure::Server<aqc_input_dynamic_reconfigure_pos::AqcInputClientPosConfig> server;
+            dynamic_reconfigure::Server<aqc_input_dynamic_reconfigure_pos::AqcInputClientPosConfig>::CallbackType callback;
 
             typedef actionlib::SimpleActionClient<aqc_msgs::ArmAction> ArmClient;
             typedef actionlib::SimpleActionClient<aqc_msgs::ChangeFlightModeAction> CfmClient;
@@ -45,12 +45,12 @@ namespace rsp {
 
             void fcu_state_callback(const mavros_msgs::State::ConstPtr& fcu_state_msg);
             void quad_pos_callback(const aqc_msgs::PositionStamped::ConstPtr& quad_pos_msg);
-            void dr_server_callback(aqc_input_dynamic_reconfigure::AqcInputClientConfig& config, uint32_t level);
+            void dr_server_callback(aqc_input_dynamic_reconfigure_pos::AqcInputClientPosConfig& config, uint32_t level);
 
         public:
 
-            aqc_input_client_dr(ros::NodeHandle& nh, bool& use_relative_xy_setpoints);
-            ~aqc_input_client_dr();    
+            aqc_input_client_dr_pos(ros::NodeHandle& nh, bool& use_relative_xy_setpoints);
+            ~aqc_input_client_dr_pos();    
             void publish_position_setpoint();      
 
     };

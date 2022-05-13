@@ -1,17 +1,17 @@
-#include <aqc_input_dynamic_reconfigure/aqc_input_client_dr.hpp>
+#include <aqc_input_dynamic_reconfigure_pos/aqc_input_client_dr_pos.hpp>
 
-rsp::aqc_input_client_dr::aqc_input_client_dr(ros::NodeHandle& nh, bool& use_relative_xy_setpoints) : 
-    nh(nh), absolute_xy(!use_relative_xy_setpoints), setpoint_x(0.0), setpoint_y(0.0), setpoint_z(4.0), setpoint_yaw(0.0), zero_pos_x(0.0), zero_pos_y(0.0), current_x(0.0), current_y(0.0), first_call_flag(true), in_offboard_mode(false) {
+rsp::aqc_input_client_dr_pos::aqc_input_client_dr_pos(ros::NodeHandle& nh, bool& use_relative_xy_setpoints) : 
+    nh(nh), absolute_xy(!use_relative_xy_setpoints), setpoint_x(0.0), setpoint_y(0.0), setpoint_z(3.0), setpoint_yaw(0.0), zero_pos_x(0.0), zero_pos_y(0.0), current_x(0.0), current_y(0.0), first_call_flag(true), in_offboard_mode(false) {
 
     pub_pos_setpoint = nh.advertise<aqc_msgs::PositionSetpoint>("/cmd_position", 10);
 
     // will need this information if using relative setpoints
     if (!absolute_xy) {
-        sub_fcu_state = nh.subscribe("/fcu_state", 10, &rsp::aqc_input_client_dr::fcu_state_callback, this);
-        sub_quad_pos = nh.subscribe("/quad_state/position", 10, &rsp::aqc_input_client_dr::quad_pos_callback, this);
+        sub_fcu_state = nh.subscribe("/fcu_state", 10, &rsp::aqc_input_client_dr_pos::fcu_state_callback, this);
+        sub_quad_pos = nh.subscribe("/quad_state/position", 10, &rsp::aqc_input_client_dr_pos::quad_pos_callback, this);
     }
 
-    callback = boost::bind(&rsp::aqc_input_client_dr::dr_server_callback, this, _1, _2);
+    callback = boost::bind(&rsp::aqc_input_client_dr_pos::dr_server_callback, this, _1, _2);
     server.setCallback(callback);   
 
     arm_client.reset( new ArmClient(nh, "change_arm_status_action") );
@@ -19,17 +19,17 @@ rsp::aqc_input_client_dr::aqc_input_client_dr(ros::NodeHandle& nh, bool& use_rel
 
     ros::Duration server_timeout(5);
     if (!arm_client->waitForServer(server_timeout)) { 
-        ROS_ERROR("'arm_client' within 'aqc_input_client_dr' node could not connect to its server. Please ensure that 'aqc_coordinator' node is alive and running.");
+        ROS_ERROR("'arm_client' within 'aqc_input_client_dr_pos' node could not connect to its server. Please ensure that 'aqc_coordinator' node is alive and running.");
     }
     if (!cfm_client->waitForServer(server_timeout)) {
-        ROS_ERROR("'cfm_client' within 'aqc_input_client_dr' node could not connect to its server. Please ensure that 'aqc_coordinator' node is alive and running.");
+        ROS_ERROR("'cfm_client' within 'aqc_input_client_dr_pos' node could not connect to its server. Please ensure that 'aqc_coordinator' node is alive and running.");
     }
 
 }
 
-rsp::aqc_input_client_dr::~aqc_input_client_dr() {}
+rsp::aqc_input_client_dr_pos::~aqc_input_client_dr_pos() {}
 
-void rsp::aqc_input_client_dr::fcu_state_callback(const mavros_msgs::State::ConstPtr& fcu_state_msg) {
+void rsp::aqc_input_client_dr_pos::fcu_state_callback(const mavros_msgs::State::ConstPtr& fcu_state_msg) {
 
     // xy position stored when not in offboard mode to have a new zero position from which the dynamic reconfigure parameters are relative
     mavros_msgs::State fcu_state = *fcu_state_msg;
@@ -37,7 +37,7 @@ void rsp::aqc_input_client_dr::fcu_state_callback(const mavros_msgs::State::Cons
 
 }
 
-void rsp::aqc_input_client_dr::quad_pos_callback(const aqc_msgs::PositionStamped::ConstPtr& quad_pos_msg) {
+void rsp::aqc_input_client_dr_pos::quad_pos_callback(const aqc_msgs::PositionStamped::ConstPtr& quad_pos_msg) {
 
     aqc_msgs::PositionStamped current_pos = *quad_pos_msg;
     current_x = current_pos.ENU_position.x;
@@ -49,7 +49,7 @@ void rsp::aqc_input_client_dr::quad_pos_callback(const aqc_msgs::PositionStamped
 
 }
 
-void rsp::aqc_input_client_dr::dr_server_callback(aqc_input_dynamic_reconfigure::AqcInputClientConfig& config, uint32_t level) {
+void rsp::aqc_input_client_dr_pos::dr_server_callback(aqc_input_dynamic_reconfigure_pos::AqcInputClientPosConfig& config, uint32_t level) {
 
     // prevent any changes when node first launched
     if (first_call_flag) {
@@ -87,7 +87,7 @@ void rsp::aqc_input_client_dr::dr_server_callback(aqc_input_dynamic_reconfigure:
 
 }
 
-void rsp::aqc_input_client_dr::publish_position_setpoint() {
+void rsp::aqc_input_client_dr_pos::publish_position_setpoint() {
 
     aqc_msgs::PositionSetpoint setpoint;
     setpoint.ENU_position.x = setpoint_x;
@@ -98,7 +98,7 @@ void rsp::aqc_input_client_dr::publish_position_setpoint() {
 
 }
 
-void rsp::aqc_input_client_dr::make_arm_request(const int& arm_code) {
+void rsp::aqc_input_client_dr_pos::make_arm_request(const int& arm_code) {
 
     aqc_msgs::ArmGoal goal;
     if (arm_code == 0) {
@@ -112,7 +112,7 @@ void rsp::aqc_input_client_dr::make_arm_request(const int& arm_code) {
 
 }
 
-void rsp::aqc_input_client_dr::make_cfm_request(const int& cfm_code) {
+void rsp::aqc_input_client_dr_pos::make_cfm_request(const int& cfm_code) {
 
     aqc_msgs::ChangeFlightModeGoal goal;
     if (cfm_code == 0) {

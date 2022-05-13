@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(aqc_input_dynamic_reconfigure)
+project(aqc_input_dynamic_reconfigure_vel)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -89,9 +90,9 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * uncomment the "generate_dynamic_reconfigure_options" section below
 ##     and list every .cfg file to be processed
 
-# Generate dynamic reconfigure parameters in the 'cfg' folder
+## Generate dynamic reconfigure parameters in the 'cfg' folder
 generate_dynamic_reconfigure_options(
-  cfg/AqcInputClient.cfg
+  cfg/AqcInputClientVel.cfg
 )
 
 ###################################
@@ -105,7 +106,7 @@ generate_dynamic_reconfigure_options(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES aqc_input_dynamic_reconfigure
+#  LIBRARIES aqc_input_dynamic_reconfigure_vel
 #  CATKIN_DEPENDS actionlib aqc_driver aqc_msgs dynamic_reconfigure roscpp rospy
 #  DEPENDS system_lib
 )
@@ -120,25 +121,24 @@ include_directories(include
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(aqc_input_client_dr
-  src/aqc_input_client_dr.cpp
+add_library(aqc_input_client_dr_vel
+  src/aqc_input_client_dr_vel.cpp
 )
-target_link_libraries(aqc_input_client_dr
+target_link_libraries(aqc_input_client_dr_vel
   ${catkin_LIBRARIES}
 )
 
-add_executable(aqc_input_client_dr_node
-  src/aqc_input_client_dr_node.cpp
+add_executable(aqc_input_client_dr_vel_node
+  src/aqc_input_client_dr_vel_node.cpp
 )
-target_link_libraries(aqc_input_client_dr_node
-  aqc_input_client_dr
+target_link_libraries(aqc_input_client_dr_vel_node
+  aqc_input_client_dr_vel
   ${catkin_LIBRARIES}
 )
-
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/aqc_input_dynamic_reconfigure.cpp
+#   src/${PROJECT_NAME}/aqc_input_dynamic_reconfigure_vel.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -149,7 +149,7 @@ target_link_libraries(aqc_input_client_dr_node
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/aqc_input_dynamic_reconfigure_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/aqc_input_dynamic_reconfigure_vel_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -213,7 +213,7 @@ target_link_libraries(aqc_input_client_dr_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_aqc_input_dynamic_reconfigure.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_aqc_input_dynamic_reconfigure_vel.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

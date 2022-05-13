@@ -5,13 +5,13 @@
     <arg name="sub_topic_fcu_state" default="/aqc/fcu_state"/>
     <arg name="pub_topic_position_setpoint" default="/aqc/cmd_pos"/>
     <arg name="sub_topic_quad_pos" default="/aqc/quad_state/position"/>
-    <arg name="dr_config_file" default="$(find aqc_input_dynamic_reconfigure)/config/dr_default.yaml"/> 
+    <arg name="dr_config_file" default="$(find aqc_input_dynamic_reconfigure_pos)/config/dr_default.yaml"/> 
 
-    <param name="/aqc_input_dynamic_reconfigure/cmd_rate_hz" value="$(arg cmd_rate_hz)"/>
-    <param name="/aqc_input_dynamic_reconfigure/use_relative_xy_setpoints" value="$(arg use_relative_xy_setpoints)"/>
+    <param name="/aqc_input_dynamic_reconfigure_pos/cmd_rate_hz" value="$(arg cmd_rate_hz)"/>
+    <param name="/aqc_input_dynamic_reconfigure_pos/use_relative_xy_setpoints" value="$(arg use_relative_xy_setpoints)"/>
 
     <!-- launch dynamic reconfigure input client -->
-    <node pkg="aqc_input_dynamic_reconfigure" type="aqc_input_client_dr_node" name="aqc_input_client_dr_node">
+    <node pkg="aqc_input_dynamic_reconfigure_pos" type="aqc_input_client_dr_pos_node" name="aqc_input_client_dr_pos_node">
         <remap from="/cmd_position" to="$(arg pub_topic_position_setpoint)"/>
         <remap from="/fcu_state" to="$(arg sub_topic_fcu_state)"/>
         <remap from="/quad_state/position" to="$(arg sub_topic_quad_pos)"/>
@@ -19,6 +19,6 @@
 
     <!-- launch rqt dynamic reconfiguration gui and load default parameters from config file -->
     <node name="rqt_reconfigure_gui" pkg="rqt_reconfigure" type="rqt_reconfigure" output="screen"/>
-    <node name="reconfigure_load_params" pkg="dynamic_reconfigure" type="dynparam" args="load /aqc_input_client_dr_node $(arg dr_config_file)"/>
+    <node name="reconfigure_load_params" pkg="dynamic_reconfigure" type="dynparam" args="load /aqc_input_client_dr_pos_node $(arg dr_config_file)"/>
 
 </launch>

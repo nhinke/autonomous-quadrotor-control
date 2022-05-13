@@ -1,0 +1,18 @@
+<launch>
+
+    <arg name="cmd_rate_hz" default="30"/>
+    <arg name="pub_topic_twist_setpoint" default="/aqc/cmd_vel"/>
+    <arg name="dr_config_file" default="$(find aqc_input_dynamic_reconfigure_vel)/config/dr_default.yaml"/> 
+
+    <param name="/aqc_input_dynamic_reconfigure_vel/cmd_rate_hz" value="$(arg cmd_rate_hz)"/>
+
+    <!-- launch dynamic reconfigure input client -->
+    <node pkg="aqc_input_dynamic_reconfigure_vel" type="aqc_input_client_dr_vel_node" name="aqc_input_client_dr_vel_node">
+        <remap from="/cmd_vel" to="$(arg pub_topic_twist_setpoint)"/>
+    </node>
+
+    <!-- launch rqt dynamic reconfiguration gui and load default parameters from config file -->
+    <node name="rqt_reconfigure_gui" pkg="rqt_reconfigure" type="rqt_reconfigure" output="screen"/>
+    <node name="reconfigure_load_params" pkg="dynamic_reconfigure" type="dynparam" args="load /aqc_input_client_dr_vel_node $(arg dr_config_file)"/>
+
+</launch>
