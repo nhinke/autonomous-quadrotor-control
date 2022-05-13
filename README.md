@@ -21,9 +21,9 @@ Sections:
 
 ### Software Dependencies
 
-### 1. [ROS Melodic](#http://wiki.ros.org/melodic/Installation/Ubuntu) running on [Ubuntu 18.04 LTS](#https://releases.ubuntu.com/18.04/)
+#### 1. [ROS Melodic](#http://wiki.ros.org/melodic/Installation/Ubuntu) running on [Ubuntu 18.04 LTS](#https://releases.ubuntu.com/18.04/)
 
-### 2. [QGroundControl](#https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.html)
+#### 2. [QGroundControl](#https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.html)
 
 This is a ground control software that enables communication between a "ground control station" (GCS) and the flight controller unit (FCU). It also provides an easy interface to update firmware and/or configuration parameters of the FCU, and an extremely helpful GUI that displays a lot of information about the vehicle during flight (both in real life and in simulation). Note that the latest stable version of QGC only officially supports Ubuntu 20.0.4 and later due to video streaming issues, but I have had experienced no errors thus far. If you do encounter problems, older stable versions can be downloaded [here](#https://github.com/mavlink/qgroundcontrol/releases/).
 
@@ -44,7 +44,7 @@ chmod +x ./QGroundControl.AppImage
 ./QGroundControl.AppImage
 ```
 
-3. [PX4-Autopilot](#https://docs.px4.io/master/en/dev_setup/building_px4.html)
+#### 3. [PX4-Autopilot](#https://docs.px4.io/master/en/dev_setup/building_px4.html)
 
 This is the autopilot software that will be running on the FCU with real hardware, and that will be running "in-the-loop" during simulation. Alternatively, you could use [Ardupilot](#https://ardupilot.org/), but that will not be compatible with this repository.
 
@@ -53,7 +53,7 @@ To install:
 git clone https://github.com/PX4/PX4-Autopilot.git --recursive
 ```
 
-4. [Mavros](#http://wiki.ros.org/mavros)
+#### 4. [Mavros](#http://wiki.ros.org/mavros)
 
 In short, this provides the necessary bridge for communication between ROS and the Pixhawk. In slightly more detail, the PX4-Autopilot software running on the Pixhawk communicates using the Mavlink protocol commonly used on drones (although I believe it is now capable of communicating with ROS2 directly). Mavros simply provides the bridge from any ROS communications to Mavlink communications.
 
@@ -62,7 +62,7 @@ To install:
 sudo apt-get install ros-melodic-mavros ros-melodic-mavros-extras
 ```
 
-5. [GeographicLib](#https://geographiclib.sourceforge.io/)
+#### 5. [GeographicLib](#https://geographiclib.sourceforge.io/)
 
 These are geographic datasets that are utilized by the ground control software.
 
