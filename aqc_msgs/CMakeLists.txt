@@ -64,6 +64,7 @@ add_message_files(
   YawStamped.msg
   PositionStamped.msg
   PositionSetpoint.msg
+  FullTwistCommand.msg
 )
 
 ## Generate services in the 'srv' folder

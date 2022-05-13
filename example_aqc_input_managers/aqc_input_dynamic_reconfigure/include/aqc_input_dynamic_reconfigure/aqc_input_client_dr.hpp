@@ -18,6 +18,7 @@ namespace rsp {
         private:
 
             ros::NodeHandle nh;
+            bool absolute_xy;
 
             bool in_offboard_mode;
             ros::Subscriber sub_fcu_state;
@@ -39,7 +40,6 @@ namespace rsp {
 
         protected:
 
-            void publish_position_setpoint();      
             void make_arm_request(const int& arm_code);
             void make_cfm_request(const int& cfm_code);
 
@@ -49,8 +49,9 @@ namespace rsp {
 
         public:
 
-            aqc_input_client_dr(ros::NodeHandle& nh);
-            ~aqc_input_client_dr();      
+            aqc_input_client_dr(ros::NodeHandle& nh, bool& use_relative_xy_setpoints);
+            ~aqc_input_client_dr();    
+            void publish_position_setpoint();      
 
     };
 

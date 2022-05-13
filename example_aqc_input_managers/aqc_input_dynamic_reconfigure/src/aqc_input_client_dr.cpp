@@ -1,17 +1,21 @@
 #include <aqc_input_dynamic_reconfigure/aqc_input_client_dr.hpp>
 
-rsp::aqc_input_client_dr::aqc_input_client_dr(ros::NodeHandle& nh) : 
-    nh(nh), setpoint_x(0.0), setpoint_y(0.0), setpoint_z(4.0), setpoint_yaw(0.0), zero_pos_x(0.0), zero_pos_y(0.0), current_x(0.0), current_y(0.0), first_call_flag(true), in_offboard_mode(false) {
+rsp::aqc_input_client_dr::aqc_input_client_dr(ros::NodeHandle& nh, bool& use_relative_xy_setpoints) : 
+    nh(nh), absolute_xy(!use_relative_xy_setpoints), setpoint_x(0.0), setpoint_y(0.0), setpoint_z(4.0), setpoint_yaw(0.0), zero_pos_x(0.0), zero_pos_y(0.0), current_x(0.0), current_y(0.0), first_call_flag(true), in_offboard_mode(false) {
 
     pub_pos_setpoint = nh.advertise<aqc_msgs::PositionSetpoint>("/cmd_position", 10);
-    sub_fcu_state = nh.subscribe("/fcu_state", 10, &rsp::aqc_input_client_dr::fcu_state_callback, this);
-    sub_quad_pos = nh.subscribe("/quad_state/position", 10, &rsp::aqc_input_client_dr::quad_pos_callback, this);
 
-    arm_client.reset( new ArmClient(nh, "change_arm_status_action") );
-    cfm_client.reset( new CfmClient(nh, "change_flight_mode_action") );
+    // will need this information if using relative setpoints
+    if (!absolute_xy) {
+        sub_fcu_state = nh.subscribe("/fcu_state", 10, &rsp::aqc_input_client_dr::fcu_state_callback, this);
+        sub_quad_pos = nh.subscribe("/quad_state/position", 10, &rsp::aqc_input_client_dr::quad_pos_callback, this);
+    }
 
     callback = boost::bind(&rsp::aqc_input_client_dr::dr_server_callback, this, _1, _2);
     server.setCallback(callback);   
+
+    arm_client.reset( new ArmClient(nh, "change_arm_status_action") );
+    cfm_client.reset( new CfmClient(nh, "change_flight_mode_action") );
 
     ros::Duration server_timeout(5);
     if (!arm_client->waitForServer(server_timeout)) { 
@@ -47,54 +51,38 @@ void rsp::aqc_input_client_dr::quad_pos_callback(const aqc_msgs::PositionStamped
 
 void rsp::aqc_input_client_dr::dr_server_callback(aqc_input_dynamic_reconfigure::AqcInputClientConfig& config, uint32_t level) {
 
-    bool new_position_setpoint = false;
-
     // prevent any changes when node first launched
     if (first_call_flag) {
         first_call_flag = false;
         return;
     }
 
-    if ((level & 1) == 1 || (level & 2) == 2) {
-        // std::cout << "\nnew east setpoint: " << (config.east_setpoint) << std::endl;
-        // std::cout << "\nnew north setpoint: " << (config.north_setpoint) << std::endl;
-        // setpoint_x = config.east_setpoint; // for absolute position setpoints
-        // setpoint_y = config.north_setpoint; // for absolute position setpoints
-        setpoint_x = config.east_setpoint + zero_pos_x; // for relative position setpoints w.r.t. zero wherever offboard mode was entered
-        setpoint_y = config.north_setpoint + zero_pos_y; // for relative position setpoints w.r.t. zero wherever offboard mode was entered
-        new_position_setpoint = true;
-    }
-
-    if ((level & 4) == 4) {
-        // std::cout << "\nnew up setpoint: " << (config.up_setpoint) << std::endl;
+    // pos command
+    if ((level & 1) == 1 || (level & 2) == 2 || (level & 4) == 4 || (level & 8) == 8) {
+        if (absolute_xy) {
+            setpoint_x = config.east_setpoint; 
+            setpoint_y = config.north_setpoint;
+        } else {
+            setpoint_x = config.east_setpoint + zero_pos_x; // relative position setpoints w.r.t. zero wherever offboard mode was entered
+            setpoint_y = config.north_setpoint + zero_pos_y; // relative position setpoints w.r.t. zero wherever offboard mode was entered
+        }
         setpoint_z = config.up_setpoint;
-        new_position_setpoint = true;
-    }
-
-    if ((level & 8) == 8) {
-        // std::cout << "\nnew yaw setpoint: " << (config.yaw_setpoint) << std::endl;
         setpoint_yaw = config.yaw_setpoint;
-        new_position_setpoint = true;
     }
 
+    // arm request
     if ((level & 16) == 16) {
-        // std::cout << "\nnew arm request: " << (config.arm_request) << std::endl;
         make_arm_request(config.arm_request);
     }
 
+    // cfm request 
     if ((level & 32) == 32) {
-        // std::cout << "\nnew cfm request: " << (config.cfm_request) << std::endl;
+        // ensure relative setpoint up to date as soon as switched into offboard mode
+        if (!absolute_xy && !in_offboard_mode) {
+            setpoint_x = config.east_setpoint + zero_pos_x; 
+            setpoint_y = config.north_setpoint + zero_pos_y;
+        }
         make_cfm_request(config.cfm_request);
-    }
-
-    if (!in_offboard_mode) {
-        setpoint_x = zero_pos_x;
-        setpoint_y = zero_pos_y;
-        new_position_setpoint = true;
-    }
-
-    if (new_position_setpoint) {
-        publish_position_setpoint();
     }
 
 }

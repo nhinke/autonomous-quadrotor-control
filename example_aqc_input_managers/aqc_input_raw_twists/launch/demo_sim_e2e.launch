@@ -7,8 +7,8 @@
     <!--    then, you should run one of the input nodes separately to act as the "client side" that only communicates with the server side, NOT the vehicle directly (on physical hardware, this input node will be running on your laptop/GCS or any other desired peripheral (e.g. raspberry pi running a single client node that is using automatic speech recognition to generate commands for the server side )) -->
 
     <arg name="cmd_rate_hz" default="15"/>
-    <arg name="use_relative_xy_setpoints" default="false"/>
-    <arg name="topic_for_position_setpoints" default="/aqc/cmd_pos"/>
+    <arg name="topic_for_twist_setpoints" default="/aqc/cmd_vel"/>
+    <arg name="topic_for_user_to_publish_cmd" default="/aqc/input_cmd_twist"/>
 
     <arg name="log_output" default="log"/>
     <arg name="controller_rate_hz" default="60"/>
@@ -19,18 +19,18 @@
         <arg name="log_output" value="$(arg log_output)"/>
         <arg name="sim_fcu_url" value="$(arg sim_fcu_url)"/>
         <arg name="controller_rate_hz" value="$(arg controller_rate_hz)"/>
-        <arg name="sub_topic_position_setpoint" value="$(arg topic_for_position_setpoints)"/>
-        <arg name="start_aqc_pos_controller_px4" value="true"/>
+        <arg name="sub_topic_twist_setpoint" value="$(arg topic_for_twist_setpoints)"/>
+        <arg name="start_aqc_pos_controller_px4" value="false"/>
         <arg name="start_aqc_pos_controller_pid" value="false"/>
         <arg name="start_aqc_pos_controller_rtt" value="false"/>
-        <arg name="start_aqc_vel_controller_raw_twists" value="false"/>
+        <arg name="start_aqc_vel_controller_raw_twists" value="true"/>
     </include>
 
-    <!-- launch aqc_input_dynamic_reconfigure.launch (client side) -->
-    <include file="$(find aqc_input_dynamic_reconfigure)/launch/aqc_input_dynamic_reconfigure.launch">
+    <!-- launch aqc_input_raw_twists.launch (client side) -->
+    <include file="$(find aqc_input_raw_twists)/launch/aqc_input_raw_twists.launch">
         <arg name="cmd_rate_hz" value="$(arg cmd_rate_hz)"/>
-        <arg name="use_relative_xy_setpoints" default="$(arg use_relative_xy_setpoints)"/>
-        <arg name="pub_topic_position_setpoint" value="$(arg topic_for_position_setpoints)"/>
+        <arg name="pub_topic_twist_setpoint" value="$(arg topic_for_twist_setpoints)"/>
+        <arg name="sub_topic_twist_setpoint" value="$(arg topic_for_user_to_publish_cmd)"/>
     </include>
 
 </launch>

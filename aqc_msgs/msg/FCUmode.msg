@@ -1,3 +1,5 @@
+# note that these values must match those found in aqc_mode_manager/config/fcu_mode_values.yaml
+
 # defined constants:
 uint8 MANUAL=1
 uint8 ACRO=2

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(aqc_vel_controller_teleop)
+project(aqc_vel_controller_raw_twists)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -124,18 +124,18 @@ include_directories(include
   ${catkin_INCLUDE_DIRS}
 )
 
-add_library(aqc_vel_controller_teleop
-  src/aqc_vel_controller_teleop.cpp
+add_library(aqc_vel_controller_raw_twists
+  src/aqc_vel_controller_raw_twists.cpp
 )
-target_link_libraries(aqc_vel_controller_teleop
+target_link_libraries(aqc_vel_controller_raw_twists
   ${catkin_LIBRARIES}
 )
 
-add_executable(aqc_vel_controller_teleop_node
-  src/aqc_vel_controller_teleop_node.cpp
+add_executable(aqc_vel_controller_raw_twists_node
+  src/aqc_vel_controller_raw_twists_node.cpp
 )
-target_link_libraries(aqc_vel_controller_teleop_node
-  aqc_vel_controller_teleop
+target_link_libraries(aqc_vel_controller_raw_twists_node
+aqc_vel_controller_raw_twists
   ${catkin_LIBRARIES}
 )
 

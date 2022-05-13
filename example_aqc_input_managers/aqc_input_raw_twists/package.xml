@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>aqc_driver</name>
+  <name>aqc_input_raw_twists</name>
   <version>0.0.0</version>
-  <description>The aqc_driver package</description>
+  <description>The aqc_input_raw_twists package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/aqc_driver</url> -->
+  <!-- <url type="website">http://wiki.ros.org/aqc_input_raw_twists</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
@@ -49,33 +49,21 @@
   <!-- Use doc_depend for packages you need only for building documentation: -->
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>mavros</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>aqc_pos_controller_px4</build_depend>
-  <build_depend>aqc_pos_controller_pid</build_depend>
-  <!-- <build_depend>aqc_pos_controller_rtt</build_depend> -->
-  <build_depend>aqc_vel_controller_raw_twists</build_depend>
-  <build_depend>aqc_coordinator</build_depend>
-  <build_depend>aqc_mode_manager</build_depend>
+  <build_depend>actionlib</build_depend>
+  <build_depend>aqc_driver</build_depend>
   <build_depend>aqc_msgs</build_depend>
-  <build_export_depend>mavros</build_export_depend>
-  <build_export_depend>roscpp</build_export_depend>
-  <build_export_depend>aqc_pos_controller_px4</build_export_depend>
-  <build_export_depend>aqc_pos_controller_pid</build_export_depend>
-  <!-- <build_export_depend>aqc_pos_controller_rtt</build_export_depend> -->
-  <build_export_depend>aqc_vel_controller_raw_twists</build_export_depend>
-  <build_export_depend>aqc_coordinator</build_export_depend>
-  <build_export_depend>aqc_mode_manager</build_export_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_export_depend>actionlib</build_export_depend>
+  <build_export_depend>aqc_driver</build_export_depend>
   <build_export_depend>aqc_msgs</build_export_depend>
-  <exec_depend>mavros</exec_depend>
-  <exec_depend>roscpp</exec_depend>
-  <exec_depend>aqc_pos_controller_px4</exec_depend>
-  <exec_depend>aqc_pos_controller_pid</exec_depend>
-  <!-- <exec_depend>aqc_pos_controller_rtt</exec_depend> -->
-  <exec_depend>aqc_vel_controller_raw_twists</exec_depend>
-  <exec_depend>aqc_coordinator</exec_depend>
-  <exec_depend>aqc_mode_manager</exec_depend>
+  <build_export_depend>geometry_msgs</build_export_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <exec_depend>actionlib</exec_depend>
+  <exec_depend>aqc_driver</exec_depend>
   <exec_depend>aqc_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>roscpp</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

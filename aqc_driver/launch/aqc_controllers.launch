@@ -5,9 +5,9 @@
     <arg name="start_aqc_pos_controller_px4" default="true"/>
     <arg name="start_aqc_pos_controller_pid" default="false"/>
     <arg name="start_aqc_pos_controller_rtt" default="false"/>
-    <arg name="start_aqc_vel_controller_teleop" default="false"/>
+    <arg name="start_aqc_vel_controller_raw_twists" default="false"/>
 
-    <arg name="sub_topic_twist_setpoint" default="/cmd_vel"/>
+    <arg name="sub_topic_twist_setpoint" default="/aqc/cmd_vel"/>
     <arg name="sub_topic_position_setpoint" default="/aqc/cmd_pos"/>
 
     <!-- launch default PX4 position controller -->
@@ -30,10 +30,10 @@
     </group>
 
     <!-- launch teleop velocity controller -->
-    <group if="$(arg start_aqc_vel_controller_teleop)">
-        <node pkg="aqc_vel_controller_teleop" type="aqc_vel_controller_teleop_node" name="aqc_vel_controller_teleop_node">
+    <group if="$(arg start_aqc_vel_controller_raw_twists)">
+        <node pkg="aqc_vel_controller_raw_twists" type="aqc_vel_controller_raw_twists_node" name="aqc_vel_controller_raw_twists_node">
             <remap from="/cmd_vel" to="$(arg sub_topic_twist_setpoint)"/>
-            <!-- TODO fix -->
+            <param name="controller_rate_hz" value="$(arg controller_rate_hz)"/>
         </node>
     </group>
 

@@ -1,0 +1,15 @@
+<launch>
+
+    <arg name="cmd_rate_hz" default="30"/>
+    <arg name="sub_topic_twist_setpoint" default="/aqc/input_cmd_twist"/>
+    <arg name="pub_topic_twist_setpoint" default="/aqc/cmd_vel"/>
+
+    <param name="/aqc_input_raw_twists/cmd_rate_hz" value="$(arg cmd_rate_hz)"/>
+
+    <!-- launch raw twists input client -->
+    <node pkg="aqc_input_raw_twists" type="aqc_input_client_raw_twists_node" name="aqc_input_client_raw_twists_node">
+        <remap from="/input_cmd_twist" to="$(arg sub_topic_twist_setpoint)"/>
+        <remap from="/cmd_vel" to="$(arg pub_topic_twist_setpoint)"/>
+    </node>
+
+</launch>

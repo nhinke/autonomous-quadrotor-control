@@ -8,12 +8,8 @@ int main(int argc, char** argv) {
     int controller_rate_hz = nh.param<int>("controller_rate_hz", 30);
     bool use_raw_position_setpoints = nh.param<bool>("use_raw_position_target_setpoints", true);
 
-    // std::cout << controller_rate_hz << std::endl;
-    // std::cout << use_raw_position_setpoints << std::endl;
-
     ros::Rate controller_rate(controller_rate_hz);
     rsp::aqc_pos_controller_px4 pos_controller_px4(nh);
-
 
     if (use_raw_position_setpoints) {
         while (nh.ok()) {

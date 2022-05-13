@@ -8,9 +8,9 @@
     <arg name="start_aqc_pos_controller_px4" default="true"/>
     <arg name="start_aqc_pos_controller_pid" default="false"/>
     <arg name="start_aqc_pos_controller_rtt" default="false"/>
-    <arg name="start_aqc_vel_controller_teleop" default="false"/>
+    <arg name="start_aqc_vel_controller_raw_twists" default="false"/>
 
-    <arg name="sub_topic_twist_setpoint" default="/cmd_vel"/>
+    <arg name="sub_topic_twist_setpoint" default="/aqc/cmd_vel"/>
     <arg name="sub_topic_position_setpoint" default="/aqc/cmd_pos"/>
 
     <!-- launch aqc_common -->
@@ -25,7 +25,7 @@
         <arg name="start_aqc_pos_controller_px4" value="$(arg start_aqc_pos_controller_px4)"/>
         <arg name="start_aqc_pos_controller_pid" value="$(arg start_aqc_pos_controller_pid)"/>
         <arg name="start_aqc_pos_controller_rtt" value="$(arg start_aqc_pos_controller_rtt)"/>
-        <arg name="start_aqc_vel_controller_teleop" value="$(arg start_aqc_vel_controller_teleop)"/>
+        <arg name="start_aqc_vel_controller_raw_twists" value="$(arg start_aqc_vel_controller_raw_twists)"/>
     </include>
 
 </launch>

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>aqc_vel_controller_teleop</name>
+  <name>aqc_vel_controller_raw_twists</name>
   <version>0.0.0</version>
-  <description>The aqc_vel_controller_teleop package</description>
+  <description>The aqc_vel_controller_raw_twists package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
