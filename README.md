@@ -8,16 +8,26 @@ two key points
 
 
 Sections:
-1. [Software Description](#software)
+1. [Demo Videos](#demo-videos)
+2. [Software Description](#software)
 	1. [Dependencies](#software-dependencies)
-	2. [Simulation](#configuring-and-running-sitl-simulation)
-2. [Hardware Description](#hardware)
+	2. [SITL Simulation](#configuring-and-running-sitl-simulation)
+	3. [Using an Existing Input Client](#how-to-use-an-existing-input-client)
+	4. [Writing a New Input Client](#how-to-write-a-new-input-client)
+3. [Hardware Description](#hardware)
 	1. [Requirements](#hardware-requirements)
-3. [Future Work](#future-work)
-4. [Demos](#demos)
+	2. [Running on Hardware](#configuring-and-running-on-hardware)
+4. [Future Work](#future-work)
+5. [Overview of Each Package](#overview-of-each-package)
+
+
+## Demo Videos
+
+1. [Brief Hardware Tour](https://www.youtube.com/watch?v=1UGx2_VTam8&t=11s)
+2. [Demo]()
+
 
 ## Software
-
 
 ### Software Dependencies
 
@@ -53,7 +63,7 @@ To install:
 git clone https://github.com/PX4/PX4-Autopilot.git --recursive
 ```
 
-#### 4. [Mavros](http://wiki.ros.org/mavros)
+#### 4. [mavros](http://wiki.ros.org/mavros)
 
 In short, this provides the necessary bridge for communication between ROS and the Pixhawk. In slightly more detail, the PX4-Autopilot software running on the Pixhawk communicates using the Mavlink protocol commonly used on drones (although I believe it is now capable of communicating with ROS2 directly). Mavros simply provides the bridge from any ROS communications to Mavlink communications.
 
@@ -62,7 +72,7 @@ To install:
 sudo apt-get install ros-melodic-mavros ros-melodic-mavros-extras
 ```
 
-#### 5. [GeographicLib](https://geographiclib.sourceforge.io/)
+#### 5. [GeographicLibDatasets](https://geographiclib.sourceforge.io/)
 
 These are geographic datasets that are utilized by the ground control software.
 
@@ -78,10 +88,11 @@ sudo bash ./install_geographiclib_datasets.sh
 $ cd
 ```
 
-### How to Use and Existing Input Client
+### How to Use an Existing Input Client
 
 
 ### How to Write a New Input Client
+
 
 
 ## Hardware
@@ -93,9 +104,7 @@ $ cd
 ### Configuring and Running on Hardware 
 
 
+
 ## Future Work
 
-## Demos
 
-[Brief Hardware Tour](#https://www.youtube.com/watch?v=1UGx2_VTam8&t=11s)
-[Demo]()
