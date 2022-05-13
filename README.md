@@ -1,13 +1,15 @@
-# Autonomous Quadrotor Control (AQC)
+# Autonomous Quadrotor Control Library (AQC or AQCL)
 
 Description/Purpose
 
-two key points 
-1 a framework to easily and quickly develop/deploy code onto real physical hardware
-2 provide an interface that is agnostic to the output (simulation or real hardware) so that all of your code can remain exactly the same with the exception of one launch file
+The Autonomous Quadrotor Control Library (henceforth known as AQC), was created with the intention of making software development for autonomous quadrotors *much* easier. This library currently only targets the [PX4-Autopilot](https://px4.io/) software, but could be extended to additionally support [Ardupilot](https://ardupilot.org/). Additionally, despite its name, this library supports any multicopter that is supported by PX4.
+
+At its core, this library exists to serve two main purposes:
+1. Provide a framework within which to easily (and quickly!) develop deployable software that targets real, physical hardware.
+2. Provide an interface that is agnostic to the output so that all of your code can remain exactly the same (with the exception of a single launch file) when switching between simulation and physical hardware.
 
 
-Sections:
+#### README Sections:
 1. [Demo Videos](#demo-videos)
 2. [Software Description](#software)
 	1. [Dependencies](#software-dependencies)
@@ -97,8 +99,20 @@ $ cd
 
 ## Hardware
 
+This section will focus exclusively on the hardware setup that I used for testing this library; however, there are infinitely many other hardware combinations (e.g. choice of airframe, companion computer, FCU, radios, etc.) that would be supported by this library.
 
 ### Hardware Requirements
+
+requirements:
+1. Companion Computer -- [NVIDIA Jetson Nano 2GB](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-nano/education-projects/)
+2. Multicopter -- I used a [Holybro x500 v2 Quadrotor](http://www.holybro.com/product/x500-v2-kit/)
+3. FCU -- I used a [Holybro Pixhawk5x](http://www.holybro.com/product/pixhawk-5x/)
+4. GPS -- [Holyrbo M9N](http://www.holybro.com/product/holybro-m9n-gps/)
+5. Telemetry radios -- I used [mRobotics 915 Mhz](https://store.mrobotics.io/mRo-SiK-Telemetry-Radio-V2-915Mhz-p/m10013-rk.htm)
+6. RC receiver/transmitter -- [FlySky FS-i6](https://www.flysky-cn.com/i6-gaishu)
+7. UART Connection -- [USB-to-TTL](https://www.amazon.com/dp/B07D6LLX19?psc=1&ref=ppx_yo2ov_dt_b_product_details)
+8. Wifi adapter -- 802.11ac wifi adapter
+9. Power -- lipo plus other peripherals (and jetson battery)
 
 
 ### Configuring and Running on Hardware 
