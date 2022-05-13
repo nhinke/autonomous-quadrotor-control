@@ -4,27 +4,18 @@ Description/Purpose
 
 Sections:
 1. [Software Description](#software)
-	1. D
+	1. [Dependencies](#software-dependencies)
+	2. [Simulation](#configuring-and-running-sitl-simulation)
 2. [Hardware Description](#hardware)
-<ol>
-  <li>[Software Description](#software)</li>
-    <ol>
-      <li>[Dependencies](#software-dependencies)</li>
-      <li>[Simulation](#sitl-simulation)</li>
-    </ol>
-  <li>[Hardware Description](#Hardware)</li>
-    <ol>
-      <li>[Requirements](#hardware-requirements)</li>
-    </ol>
-  <li>[Future Work](#Future-Work)</li>
-</ol>
+	1. [Requirements](#hardware-requirements)
+3. [Future Work](#future-work)
 
 ## Software
 
-### Software Dependencies {#software-dependencies}
+### Software Dependencies
 
 
-### Configuring and Running SITL Simulation {#sitl-simulation}
+### Configuring and Running SITL Simulation
 
 ```bash
 $ cd
@@ -36,13 +27,14 @@ $ cd
 ### How to Write a New Input Client
 
 
-## Hardware {#Hardware}
+## Hardware
 
 
-### Hardware Requirements {#hardware-requirements}
+### Hardware Requirements
 
 
 ### Configuring and Running on Hardware 
 
 
-## Future Work {#Future-Work}
+## Future Work
+
