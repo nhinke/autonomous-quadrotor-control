@@ -21,9 +21,9 @@ Sections:
 
 ### Software Dependencies
 
-1. [ROS Melodic](#http://wiki.ros.org/melodic/Installation/Ubuntu) running on [Ubuntu 18.04 LTS](#https://releases.ubuntu.com/18.04/)
+### 1. [ROS Melodic](#http://wiki.ros.org/melodic/Installation/Ubuntu) running on [Ubuntu 18.04 LTS](#https://releases.ubuntu.com/18.04/)
 
-2. [QGroundControl](#https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.html)
+### 2. [QGroundControl](#https://docs.qgroundcontrol.com/master/en/getting_started/download_and_install.html)
 
 This is a ground control software that enables communication between a "ground control station" (GCS) and the flight controller unit (FCU). It also provides an easy interface to update firmware and/or configuration parameters of the FCU, and an extremely helpful GUI that displays a lot of information about the vehicle during flight (both in real life and in simulation). Note that the latest stable version of QGC only officially supports Ubuntu 20.0.4 and later due to video streaming issues, but I have had experienced no errors thus far. If you do encounter problems, older stable versions can be downloaded [here](#https://github.com/mavlink/qgroundcontrol/releases/).
 
