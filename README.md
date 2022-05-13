@@ -120,7 +120,7 @@ This section will focus exclusively on the hardware setup that I used for testin
 
 ![x500-im1](/doc/images/x500-1.png)
 
-![x500-im2](doc/images/x500-2.HEIC)
+![x500-im2](/doc/images/x500-2.png)
 
 ### Hardware Requirements
 
