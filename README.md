@@ -16,7 +16,7 @@ Sections:
   <li>[Future Work](#Future-Work)</li>
 </ol>
 
-## Software {#Software}
+## Software
 
 ### Software Dependencies {#software-dependencies}
 
