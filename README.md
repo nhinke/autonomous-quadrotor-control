@@ -118,9 +118,9 @@ $ cd
 
 This section will focus exclusively on the hardware setup that I used for testing this library; however, there are infinitely many other hardware combinations (e.g. choice of airframe, companion computer, FCU, radios, etc.) that would be supported by this library.
 
-![x500-im1](/doc/images/x500-1.HEIC)
+![x500-im1](doc/images/x500-1.HEIC)
 
-![x500-im2](/doc/images/x500-1.HEIC)
+![x500-im2](doc/images/x500-2.HEIC)
 
 ### Hardware Requirements
 
