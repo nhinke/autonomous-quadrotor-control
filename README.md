@@ -35,7 +35,7 @@ sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl -y
 sudo apt install libqt5gui5 -y
 ```
 
-Log out and log back in for user permissions to change
+Log out and log back in for user permissions to change  
 Download [QGroundControl.AppImage](https://d176tv9ibo4jno.cloudfront.net/latest/QGroundControl.AppImage)
 
 To run:
