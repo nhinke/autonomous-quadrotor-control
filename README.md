@@ -1,6 +1,6 @@
 # Autonomous Quadrotor Control Library (AQC)
 
-## README Sections:
+## README Contents
 1. [Brief Description](#brief-description)
 2. [Demo Videos](#demo-videos)
 3. [Software Description](#software)
@@ -11,7 +11,7 @@
 	5. [SITL Simulation](#configuring-and-running-sitl-simulation)
 4. [Hardware Description](#hardware)
 	1. [Requirements](#hardware-requirements)
-	2. [Running on Hardware](#configuring-and-running-on-hardware)
+	2. [Running AQC on Physical Hardware](#configuring-and-running-aqc-on-hardware)
 5. [Future Work](#future-work)
 6. [Overview of Each Package](#overview-of-each-package)
 7. [Personal Remarks](#personal-remarks)
@@ -130,7 +130,7 @@ requirements:
 9. Power -- lipo plus other peripherals (and jetson battery)
 
 
-### Configuring and Running on Hardware 
+### Configuring and Running AQC on Hardware 
 
 In order to use AQC with physical hardware, a multicopter equipped with a companion computer that supports ROS and WiFi networking (e.g. Raspberry Pi or NVIDIA Jetson) is required. Since AQC was designed to act as the "server side" for any autonomous behaviors, a collection of nodes within it will be running on the companion computer (which will be also hosting the ROS Master). To communicate with AQC, one need only connect their 
 
