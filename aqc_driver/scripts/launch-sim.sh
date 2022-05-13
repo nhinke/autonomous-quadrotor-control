@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+# this script uses locate to find installations of QGC and PX4-Autopilot...
+# if you find that the simulation is taking too long to launch, please define the actual paths to your installations below...
 
 # set simulation model to either IRIS or SOLO
 model="SOLO"
