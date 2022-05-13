@@ -23,8 +23,8 @@ Repository developed by Nick Hinke for 530.707 Robot System Programming (Spring 
 The Autonomous Quadrotor Control Library (henceforth known as AQC), was created with the intention of making software development for autonomous quadrotors *easier*. AQC currently only targets the [PX4-Autopilot](https://px4.io/) software, but could be extended to additionally support [Ardupilot](https://ardupilot.org/). Additionally, despite its name, AQC supports any flavor of multicopter supported by PX4.
 
 At its core, AQC exists to serve two main purposes:
-**1.** Provide a framework within which to easily (and quickly!) develop deployable software that targets real, physical hardware.
-**2.** Provide an interface that is agnostic to the output so that all of your code can remain exactly the same (with the exception of a single launch file) when switching between simulation and physical hardware.
+1. Provide a framework within which to easily (and quickly!) develop deployable software that targets real, physical hardware.
+2. Provide an interface that is agnostic to the output so that all of your code can remain exactly the same (with the exception of a single launch file) when switching between simulation and physical hardware.
 
 To accomplish these objectives, AQC implements a variety of features that will help speed up your development of any autonomnous behaviors, including:
 - A variety of controllers to which vehicle setpoints can be published (currently supports both position and velocity setpoints)
