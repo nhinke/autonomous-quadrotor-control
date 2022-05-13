@@ -1,6 +1,22 @@
 # Autonomous Quadrotor Control Library (AQC)
 
-### Brief Description
+## README Sections:
+1. [Brief Description](#brief-description)
+2. [Demo Videos](#demo-videos)
+3. [Software Description](#software)
+	1. [Dependencies](#software-dependencies)
+	2. [Ss]()
+	3. [Using an Existing Input Client](#how-to-use-an-existing-input-client)
+	4. [Writing a New Input Client](#how-to-write-a-new-input-client)
+	5. [SITL Simulation](#configuring-and-running-sitl-simulation)
+4. [Hardware Description](#hardware)
+	1. [Requirements](#hardware-requirements)
+	2. [Running on Hardware](#configuring-and-running-on-hardware)
+5. [Future Work](#future-work)
+6. [Overview of Each Package](#overview-of-each-package)
+7. [Personal Remarks](#personal-remarks)
+
+## Brief Description
 
 The Autonomous Quadrotor Control Library (henceforth known as AQC), was created with the intention of making software development for autonomous quadrotors *much* easier. AQC currently only targets the [PX4-Autopilot](https://px4.io/) software, but could be extended to additionally support [Ardupilot](https://ardupilot.org/). Additionally, despite its name, AQC supports any flavor of multicopter supported by PX4.
 
@@ -20,21 +36,6 @@ In order to take advantage of these features, one need only launch the AQC drive
 Before jumping into more details, it is first necessary to make a quick disclaimer. Developing autonomous behaviors for aerial vehicles is inherently *dangerous*. There is certainly a tradeoff between flexibility of features and implemented safety measures, and AQC has not been rigorously tested at a production level. With that in mind, please perform any experiments with physical hardware at your own risk.
 
 It should also be noted that AQC was created using ROS Melodic on Ubuntu 18.0.4 LTS, and its formatting was partially inspired by the ROS Industrial [universal robot meta-package](https://github.com/fmauch/universal_robot). 
-
-### README Sections:
-1. [Demo Videos](#demo-videos)
-2. [Software Description](#software)
-	1. [Dependencies](#software-dependencies)
-	2. [Ss]()
-	3. [Using an Existing Input Client](#how-to-use-an-existing-input-client)
-	4. [Writing a New Input Client](#how-to-write-a-new-input-client)
-	5. [SITL Simulation](#configuring-and-running-sitl-simulation)
-3. [Hardware Description](#hardware)
-	1. [Requirements](#hardware-requirements)
-	2. [Running on Hardware](#configuring-and-running-on-hardware)
-4. [Future Work](#future-work)
-5. [Overview of Each Package](#overview-of-each-package)
-6. [Personal Remarks](#personal-remarks)
 
 
 ## Demo Videos
