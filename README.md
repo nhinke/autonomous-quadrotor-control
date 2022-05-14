@@ -236,7 +236,7 @@ Steps required for my hardware implementation:
 1.  Connect Jetson to WiFi connection with internet, then pull AQC repository from GitHub and build
 2.  Connect Jetson to its own (hidden) WiFi network (without internet) and note its IP address
 3.  Connect machine that will be running the input client to hidden Jetson WiFi network and note its IP address (referred to as jetson-ip)
-4.  In ~/.bashrc on GCS machine, set ROS_IP to its own IP address and set ROS_MASTER_URI to http://jetson-ip:11311/ and resource it
+4.  In ~/.bashrc on GCS machine, set ROS_IP to its own IP address and set ROS_MASTER_URI to ht<span>tp://</span>jetson-ip:11311/ and resource it
 5.  Power vehicle and ensure it connects to GCS machine (in QGC) using telemtry radio connection
 6.  ssh into Jetson using its IP address
 7.  Run the terminal as a root user using the command `sudo -s` in order to obtain access to the serial ports (for mavros)
