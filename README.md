@@ -203,8 +203,7 @@ link [here](https://docs.px4.io/v1.12/en/simulation/gazebo.html) for how to do s
 
 ## Hardware
 
-This section will focus exclusively on the hardware setup that I used for testing this library; however, there are infinitely many other hardware combinations (e.g. choice of airframe, companion computer, FCU, radios, etc.) that would be supported by this library.
-
+This section will focus exclusively on the hardware setup that I used for testing this library; however, there are infinitely many other hardware combinations (e.g. choice of airframe, companion computer, FCU, radios, etc.) that would be supported by this library. For reference, there are some images below of my personal hardware setup.
 
 <p align="center">
   <img src="/doc/images/x500-with-GCS.png" alt="x500 with GCS" style="width:60%;"/>
@@ -214,28 +213,38 @@ This section will focus exclusively on the hardware setup that I used for testin
   <img src="/doc/images/x500-close-up.png" alt="x500 close-up" style="width:75%;"/>
 </p>
 
-<!-- <center><img src="doc/images/x500-1.png" alt="x500 with GCS" style="width: 80%;"/></center>
-<center><img src="doc/images/x500-2.png" alt="x500 close-up" style="width: 80%;"/></center> -->
-<!-- ![x500-im1](/doc/images/x500-1.png) -->
-<!-- ![x500-im2](/doc/images/x500-2.png) -->
 
 ### Hardware Requirements
 
-requirements:
+Basic requirements including what I used:
 1. Companion Computer -- [NVIDIA Jetson Nano 2GB](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-nano/education-projects/)
-2. Multicopter -- I used a [Holybro x500 v2 Quadrotor](http://www.holybro.com/product/x500-v2-kit/)
-3. FCU -- I used a [Holybro Pixhawk5x](http://www.holybro.com/product/pixhawk-5x/)
+2. Multicopter -- [Holybro x500 v2 Quadrotor](http://www.holybro.com/product/x500-v2-kit/)
+3. FCU -- [Holybro Pixhawk5x](http://www.holybro.com/product/pixhawk-5x/)
 4. GPS -- [Holyrbo M9N](http://www.holybro.com/product/holybro-m9n-gps/)
-5. Telemetry radios -- I used [mRobotics 915 Mhz](https://store.mrobotics.io/mRo-SiK-Telemetry-Radio-V2-915Mhz-p/m10013-rk.htm)
+5. Telemetry radios -- [mRobotics 915 Mhz](https://store.mrobotics.io/mRo-SiK-Telemetry-Radio-V2-915Mhz-p/m10013-rk.htm)
 6. RC receiver/transmitter -- [FlySky FS-i6](https://www.flysky-cn.com/i6-gaishu)
-7. UART Connection -- [USB-to-TTL](https://www.amazon.com/dp/B07D6LLX19?psc=1&ref=ppx_yo2ov_dt_b_product_details)
-8. Wifi adapter -- 802.11ac wifi adapter
-9. Power -- lipo plus other peripherals (and jetson battery)
+7. UART Connection -- [USB-to-TTL](https://www.amazon.com/dp/B07D6LLX19?psc=1&ref=ppx_yo2ov_dt_b_product_details) for reliable communication between FCU and Jetson
+8. Wifi adapter -- 802.11ac wifi adapter to allow the Jetson to create its own network to which you can connect the GCS
+9. Power -- LiPo battery with appropriate power distribution modules, and a USB-C power bank to power the Jetson
 
 
 ### Configuring and Running AQC on Hardware 
 
-In order to use AQC with physical hardware, a multicopter equipped with a companion computer that supports ROS and WiFi networking (e.g. Raspberry Pi or NVIDIA Jetson) is required. Since AQC was designed to act as the "server side" for any autonomous behaviors, a collection of nodes within it will be running on the companion computer (which will be also hosting the ROS Master). To communicate with AQC, one need only connect their 
+<!-- In order to use AQC with physical hardware, a multicopter equipped with a companion computer that supports ROS and WiFi networking (e.g. Raspberry Pi or NVIDIA Jetson) is required. Since AQC was designed to act as the "server side" for any autonomous behaviors, a collection of nodes within it will be running on the companion computer (which will be also hosting the ROS Master). To communicate with AQC, one need only connect their GCS laptop (or whatever device/machine is running the input client) to the ROS Master hosted on the companion computer by defining the ROS_MASTER_URI as the IP address of  defined as the IP address of the companion computer  -->
+
+Steps required for my hardware implementation:
+1.  Connect Jetson to WiFi connection with internet, then pull AQC repository from GitHub and build
+2.  Connect Jetson to its own (hidden) WiFi network (without internet) and note its IP address
+3.  Connect machine that will be running the input client to hidden Jetson WiFi network and note its IP address (referred to as jetson-ip)
+4.  In ~/.bashrc on GCS machine, set ROS_IP to its own IP address and set ROS_MASTER_URI to http://jetson-ip:11311/ and resource it
+5.  Power vehicle and ensure it connects to GCS machine (in QGC) using telemtry radio connection
+6.  ssh into Jetson using its IP address
+7.  Run the terminal as a root user using the command `sudo -s` in order to obtain access to the serial ports (for mavros)
+8.  cd into the AQC workspace on the Jetson and source it
+9.  Launch aqc_driver on the Jetson using the command `roslaunch aqc_driver aqc_driver.launch` with any other desired arguments
+10. Launch appopriate input client on GCS machine
+11. Have fun (and be safe!) controlling the vehicle in offboard mode!
+
 
 ## Future Work
 
