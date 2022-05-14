@@ -3,7 +3,7 @@
 Repository developed by Nick Hinke for EN.530.707 Robot System Programming (Spring '22)
 
 ## README Contents
-1. [Description](#brief-description)
+1. [Description](#description)
 2. [Demo Videos](#demo-videos)
 3. [Software Description](#software)
 	1. [Dependencies](#software-dependencies)
@@ -16,11 +16,11 @@ Repository developed by Nick Hinke for EN.530.707 Robot System Programming (Spri
 	1. [Requirements](#hardware-requirements)
 	2. [Running AQC on Physical Hardware](#configuring-and-running-aqc-on-hardware)
 5. [Future Work](#future-work)
-6. [Brief Overview of Each Package](#overview-of-each-package)
-7. [Personal Remarks](#personal-remarks)
+6. [Brief Overview of Each Package](#brief-overview-of-each-package)
+<!-- 7. [Personal Remarks](#personal-remarks) -->
 
 
-## Brief Description
+## Description
 
 The Autonomous Quadrotor Control Library (henceforth known as AQC), was created with the intention of making software development for autonomous quadrotors *easier*. AQC currently only targets the [PX4-Autopilot](https://px4.io/) software, but could be extended to additionally support [Ardupilot](https://ardupilot.org/). Additionally, despite its name, AQC supports any flavor of multicopter supported by PX4.
 
@@ -192,12 +192,15 @@ Consequently, to communicate motion setpoints to the appropriate controllers, yo
 
 ### Configuring and Running SITL Simulation
 
-TODO
-basic sim to test functionality of aqc and input clients
-not about being fancy or looking pretty
-important thing is that your code will run exactly the same way in sim and in real life
-future work: could make sim more realistc by including wind, noise in gps and other sensors, etc.
-link [here](https://docs.px4.io/v1.12/en/simulation/gazebo.html) for how to do some of that and more
+It should be mentioned that since the goal of AQC is to speed up and simplify the development of autonomous behaviors for multicopters, the only real priority when simulating the system was to provide a simulation environment that interfaces with your code in exactly the same way as the aqc_driver for physical hardware. As such, only a very basic simulation was utilized for first testing the functionality of the aqc_driver and subsequently for testing the performance of the input clients. That being said, it would be very straightforward to jazz up the simulation quickly to fit the needs of your application (e.g. using a world with lots of obstacles if your application requires obstacle avoidance capabilities). Additionally, if it is desired to simulate the robustness of your implementation to uncertainty or noise for your application (e.g. PID trajectory tracking controller performance, active disturbance rejection at high altitudes, etc.), a variety of parameters could be introduced to the simulation via Gazebo Plugins or otherwise including wind, sensor noise, gps errors, etc. PX4 even provides a good resource [here]() with some ideas and implementations for simulating such things. All that being said, however, the priority here was simply to prove the functionality of AQC, so only a rather minimalist simulation enviroment was required.
+
+Recall that when considering running AQC on physical hardware, the typical use case will almost always involve the aqc_driver running on the vehicle's companion computer, whereas the input client will be running on a laptop/GCS. As such, since the two sides of the system are divided as server (aqc_driver) and client (input_client), ideally they should be simulated as such. In that vein, there is a single launch file for launching the aqc_driver in simulation called [aqc_sim.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_sim.launch). When launching this file, you can pass it many arugments including the controllers to be enabled and their frequency, the names of the relevant topics, and even the simulated FCU url if your application requires the use of one other than the default set by PX4 [here](https://docs.px4.io/v1.12/en/simulation/ros_interface.html). Thus, once you know which input client you would like to test (i.e. the controllers it requires and the topics to which it will be publishing setpoints), you can launch just the single [aqc_sim.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_sim.launch) file to begin the simulation in Gazebo. Note that this file actually launches Gazebo and QGroundControl using the same script as used when [testing the installations](#testing-installations).
+
+All that being said, in order to speed up development times, you're going to want to just launch a single file to test your code since both the aqc_driver and the input client will (very likely) be running on the same machine. To do so, this single launch file should only need to launch the input client you wish to test along with [aqc_sim.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_sim.launch) (and likely some shared arguments between the two). As a new combined launch file such as this would be required for every new input client implementation, it is recommended that a launch file of this nature be included under the launch directory within the test client package. Three such examples of these combined launch files exist within the [example input clients](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients) directory, one for each of the provided input clients, namely:
+
+1. the
+2. the
+3. the
 
 
 
@@ -248,8 +251,12 @@ Steps required for my hardware implementation:
 
 ## Future Work
 
+- extend aqc_driver to support more controllers (and therefore, more types of input from the input clients)
+- develop really cool/interesting input clients for niche applications
+	- e.g. a bluetooth headset connect to a Raspberry Pi that could be carried around in your backpack while acting as the GCS machine, where the Raspberry Pi running a automatic speech recognition neural network like wav2vec (likely with additional hardware like a [TPU accelerator](https://coral.ai/products/accelerator/) to reduce latency) to extract setpoint commands from speech 
+	- e.g. running input client in addition to aqc_driver on companion computer with depth camera (would likely required more powerful device such as NVIDIA Jetson Xavier) to track and follow another moving multicopter 
 
-## Overview of each Package
+## Brief Overview of each Package
 
 
-## Personal Remarks
+<!-- ## Personal Remarks -->
