@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   mavros
   aqc_pos_controller_px4
   aqc_pos_controller_pid
-  # aqc_pos_controller_rtt
+  aqc_pos_controller_rtt
   aqc_vel_controller_raw_twists
   aqc_coordinator
   aqc_mode_manager

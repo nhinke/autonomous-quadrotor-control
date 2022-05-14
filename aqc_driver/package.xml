@@ -53,7 +53,7 @@
   <build_depend>roscpp</build_depend>
   <build_depend>aqc_pos_controller_px4</build_depend>
   <build_depend>aqc_pos_controller_pid</build_depend>
-  <!-- <build_depend>aqc_pos_controller_rtt</build_depend> -->
+  <build_depend>aqc_pos_controller_rtt</build_depend>
   <build_depend>aqc_vel_controller_raw_twists</build_depend>
   <build_depend>aqc_coordinator</build_depend>
   <build_depend>aqc_mode_manager</build_depend>
@@ -62,7 +62,7 @@
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>aqc_pos_controller_px4</build_export_depend>
   <build_export_depend>aqc_pos_controller_pid</build_export_depend>
-  <!-- <build_export_depend>aqc_pos_controller_rtt</build_export_depend> -->
+  <build_export_depend>aqc_pos_controller_rtt</build_export_depend>
   <build_export_depend>aqc_vel_controller_raw_twists</build_export_depend>
   <build_export_depend>aqc_coordinator</build_export_depend>
   <build_export_depend>aqc_mode_manager</build_export_depend>
@@ -71,7 +71,7 @@
   <exec_depend>roscpp</exec_depend>
   <exec_depend>aqc_pos_controller_px4</exec_depend>
   <exec_depend>aqc_pos_controller_pid</exec_depend>
-  <!-- <exec_depend>aqc_pos_controller_rtt</exec_depend> -->
+  <exec_depend>aqc_pos_controller_rtt</exec_depend>
   <exec_depend>aqc_vel_controller_raw_twists</exec_depend>
   <exec_depend>aqc_coordinator</exec_depend>
   <exec_depend>aqc_mode_manager</exec_depend>
