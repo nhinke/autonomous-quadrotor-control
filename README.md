@@ -206,11 +206,11 @@ link [here](https://docs.px4.io/v1.12/en/simulation/gazebo.html) for how to do s
 This section will focus exclusively on the hardware setup that I used for testing this library; however, there are infinitely many other hardware combinations (e.g. choice of airframe, companion computer, FCU, radios, etc.) that would be supported by this library. For reference, there are some images below of my personal hardware setup.
 
 <p align="center">
-  <img src="/doc/images/x500-with-GCS.png" alt="x500 with GCS" style="width:60%;"/>
+  <img src="/doc/images/x500-with-GCS.png" alt="x500 with GCS" style="width:65%;"/>
 </p>
 
 <p align="center">
-  <img src="/doc/images/x500-close-up.png" alt="x500 close-up" style="width:75%;"/>
+  <img src="/doc/images/x500-close-up.png" alt="x500 close-up" style="width:85%;"/>
 </p>
 
 
