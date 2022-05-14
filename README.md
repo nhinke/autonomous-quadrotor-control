@@ -17,7 +17,7 @@ Repository developed by Nick Hinke for EN.530.707 Robot System Programming (Spri
 	2. [Running AQC on Physical Hardware](#configuring-and-running-aqc-on-hardware)
 5. [Future Work](#future-work)
 6. [Brief Overview of Each Package](#brief-overview-of-each-package)
-<!-- 7. [Personal Remarks](#personal-remarks) -->
+7. [Personal Remarks](#personal-remarks)
 
 
 ## Description
@@ -201,6 +201,8 @@ source devel/setup.bash
 roslaunch aqc_input_dynamic_reconfigure_vel demo_sim_e2e.launch
 ```
 
+Note that you will have to arm the vehicle before it is able to takeoff and fly in any flight mode. Typically, the workflow entails: the vehicle is first armed and taken off to a safe altitude, the vehicle then enters hold mode to hold its current state and wait for further instruction, then (after ensuring that an appropriate input client is alive and running) the vehicle is switched into offboard flight mode in order to test the input client.
+
 #### Considering more detail:
 
 It should be mentioned that since the goal of AQC is to speed up and simplify the development of autonomous behaviors for multicopters, the only real priority when simulating the system was to provide a simulation environment that interfaces with your code in exactly the same way as the aqc_driver for physical hardware. As such, only a very basic simulation was utilized for first testing the functionality of the aqc_driver and subsequently for testing the performance of the input clients. That being said, it would be very straightforward to jazz up the simulation quickly to fit the needs of your application (e.g. using a world with lots of obstacles if your application requires obstacle avoidance capabilities). Additionally, if it is desired to simulate the robustness of your implementation to uncertainty or noise for your application (e.g. PID trajectory tracking controller performance, active disturbance rejection at high altitudes, etc.), a variety of parameters could be introduced to the simulation via Gazebo Plugins or otherwise including wind, sensor noise, gps errors, etc. PX4 even provides a good resource [here](https://docs.px4.io/master/en/simulation/ros_interface.html) with some ideas and implementations for simulating such things. All that being said, however, the priority here was simply to prove the functionality of AQC, so only a rather minimalist simulation enviroment was required.
@@ -222,8 +224,14 @@ source devel/setup.bash
 roslaunch aqc_input_dynamic_reconfigure_vel demo_sim_e2e.launch
 ```
 
+Note that you should not need to pass any arguments to any of the launch files for them to work. Additionally, while each of the three launch files have very similar arguments that can be passed to it, the [demo_sim_e2e.launch](https://github.com/nhinke/rsp-project-repo/blob/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_pos/launch/demo_sim_e2e.launch) for [aqc_input_dynamic_reconfigure_pos](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_pos) notably has an additional argument entitled "use_relative_xy_setpoints" (which takes a bool value, and is false by default) that converts the input commands (that were set using the rqt_reconfigure_gui) for the east (x) and north (y) positions into relative setpoints, while keeping the up (z) position and yaw angle absolute for safety reasons. The planar (x,y) position referenced as (0,0) in this relative mode is set to the planar position of the vehicle when offboard mode was first launched. For this reason, if you were to drive the vehicle to the planar position (5,5) using the input client with the vehicle in offboard mode, then switch the vehicle to hold flight mode for some reason, and then switch the vehicle back into offboard mode before resetting the sliders in the rqt_reconfigure_window to 0, the vehicle would immediately begin travelling to planar position (10,10). 
 
-
+To try this out:
+```bash
+# assuming you are starting in the catkin_ws where aqc_repo was built
+source devel/setup.bash
+roslaunch aqc_input_dynamic_reconfigure_pos demo_sim_e2e.launch use_relative_xy_setpoints:=true
+```
 
 
 ## Hardware
@@ -274,7 +282,7 @@ Steps required for my hardware implementation:
 
 ## Future Work
 
-- extend aqc_driver to support more controllers (and therefore, more types of input from the input clients)
+- extend aqc_driver to support more controllers (and therefore, allow more types of input from the input clients)
 - develop really cool/interesting input clients for niche applications
 	- e.g. a bluetooth headset connect to a Raspberry Pi that could be carried around in your backpack while acting as the GCS machine, where the Raspberry Pi running a automatic speech recognition neural network like wav2vec (likely with additional hardware like a [TPU accelerator](https://coral.ai/products/accelerator/) to reduce latency) to extract setpoint commands from speech 
 	- e.g. running input client in addition to aqc_driver on companion computer with depth camera (would likely required more powerful device such as NVIDIA Jetson Xavier) to track and follow another moving multicopter 
@@ -282,4 +290,4 @@ Steps required for my hardware implementation:
 ## Brief Overview of each Package
 
 
-<!-- ## Personal Remarks -->
+## Personal Remarks
