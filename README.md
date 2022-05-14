@@ -127,7 +127,7 @@ chmod +x src/aqc-repo/scripts/test-sim-env.sh
 ./src/aqc-repo/scripts/test-sim-env.sh
 ```
 
-Running this script should open QGroundControl and Gazebo, and you should see something akin to the following:
+Running this script should open QGroundControl and Gazebo, and you should see something akin to the following with the vehicle sitting in the middle of Decker Quad at JHU:
 
 <p align="center">
   <img src="/doc/images/test-sim-script-windows.png" alt="Screenshot of windows that open after running test-sim-env.sh script" style="width:90%;"/>
@@ -137,7 +137,22 @@ As long as you ran the script in the foreground, hitting enter in the same termi
 
 Note that the script used to launch this test simulation references [this script](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/scripts/launch-sim.sh) which is used to launch **all** simulations from within AQC. Notably, this script uses the shell command `locate` to find your installations of QGroundControl and PX4-Autopilot. If you find that this takes too long to launch the simulations, simply define the appropriate installations paths in that script.
 
+### What is an Input Client?
+
+As previously mentioned, the typical use case for AQC will first involve launching the aqc_driver (either the physical hardware version at [aqc_driver.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_driver.launch) or the simulation version at [aqc_sim.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_sim.launch)) to act as a server side running on the vehicle. Indeed, running this driver is what provides all of the functionality described above. After launching the driver, all of the necessary communications bridges have been made to the PX4 software stack, and so the system is just waiting for some good input commands. In order to provide these commands in a standardized way, we define the notion of an "input client" which is responsible for communicating all commands to the aqc_driver. While it is possible (and encouraged!) to define your own input clients specific to your application as will be discussed briefly [here](#how-to-write-a-new-input-client) and [here](#future-work), there are several pre-existing input clients that are ready for you to use right away. They can all be found in the directory titled [example_aqc_input_clients](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients).
+
+The reason for keeping these input clients separate from the rest of the AQC library is because, frankly, they do not belong in here. This is because for most applications, the companion computer onboard the vehicle will manage the aqc_driver and the ROS Master, but will never utilize one of these inputs clients (rather, they will only receive commands from them via pre-defined communication channels). Consequently, there is no reason to waste any memory on a resource-constrained companion computer, and they are only included in this repo for illustrative purposes. If you wish to use them, copy them into a different repository specific to your application and work with them there. That being said, however, if you wish to simulate both the input client and the aqc_driver on the same machine during development, it may make sense to keep the input clients here until it comes time to deploy your software onto physical hardware.
+
 ### How to Use an Existing Input Client
+
+Using one of the pre-defined input clients is very straightforward, both in simulation and when using physical hardware (since not a *single* line of code in the input client needs to change!). Currently, there are three fully-implemented input clients provided [here](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients), and one other work-in-progress. The three working clients are:
+
+1. [aqc_input_raw_twists](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_raw_twists)
+	This
+2. [aqc_input_dynamic_reconfigure_vel](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_vel)
+	This
+3. [aqc_input_dynamic_reconfigure_pos](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_pos)
+	this 
 
 
 ### How to Write a New Input Client
