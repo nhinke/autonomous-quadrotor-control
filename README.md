@@ -233,7 +233,6 @@ source devel/setup.bash
 roslaunch aqc_input_dynamic_reconfigure_pos demo_sim_e2e.launch use_relative_xy_setpoints:=true
 ```
 
-
 ## Hardware
 
 TODO finish fleshing out the remaining sections  
@@ -287,7 +286,22 @@ Steps required for my hardware implementation:
 	- e.g. a bluetooth headset connect to a Raspberry Pi that could be carried around in your backpack while acting as the GCS machine, where the Raspberry Pi running a automatic speech recognition neural network like wav2vec (likely with additional hardware like a [TPU accelerator](https://coral.ai/products/accelerator/) to reduce latency) to extract setpoint commands from speech 
 	- e.g. running input client in addition to aqc_driver on companion computer with depth camera (would likely required more powerful device such as NVIDIA Jetson Xavier) to track and follow another moving multicopter 
 
+
 ## Brief Overview of each Package
+
+In the order in which they are listed in the repository:
+1. aqc_controllers - this is a meta-package which contains all controllers that are used within aqc_driver
+	1. aqc_controller_pid - **INCOMPLETE**, this package will be used to define a PID position controller that uses velocity setpoint commands, but it is currently incomplete
+	2. aqc_pos_controller_px4 - this package contains a position controller which communicates position setpoints to the FCU (which is the highest available method of control input supported by PX4) and can be configured in either absolute position mode or relative position mode
+	3. aqc_pos_contoller_rtt - **INCOMPLETE**, this package was going to be used to define position setpoints using Orocos RTT, but was put on the back burner given that many companion computer may struggle to run this anyway
+	4. aqc_vel_controller_raw_twists - this package contains a velocity controller which communicates velocity setpoints to the FCU 
+2. 
+3. 
+4. 
+5. 
+6. 
 
 
 ## Personal Remarks
+
+I had a ton of fun working on this project. I actually had a lot of the hardware (including Jetson, x500, etc.) after starting to get into this stuff last Summer (2021), but I never had a chance to even set up everything once school started again last Fall. I will absolutely continue to work on this library, as I have a lot of ideas for future projects that would be benefitted greatly by using AQC. Also, I wrote this README as if other people are going to come along and use this repository; I do not expect that to happen (at least, certainly not anytime soon), but it was good practice and I honestly had fun doing it. If you are someone else here to use this repo, however, cheers to you! Anyways, I would like to quickly thank you to Prof. Leonard for providing me with the tools necessary to actually pull this off. Happy flying!
