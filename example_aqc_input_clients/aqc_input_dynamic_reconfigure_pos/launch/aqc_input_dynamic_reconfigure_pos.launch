@@ -1,5 +1,11 @@
 <launch>
 
+    <!-- this input client can operate using either absolute xy position setpoints or relative xy position setpoints (absolute by default) -->
+    <!-- to use relative xy position setpoints, simply pass a true value to the argument "use_relative_xy_setpoints" -->
+    <!-- when using relative setpoints, the reference (0,0) position is set to the position at which the vehicle entered offboard mode -->
+    <!-- note that this reference (0,0) will be set every time the vehicle enters offboard mode (not just the first time) -->
+    <!-- note that both the z position (altitude) and the yaw angle are always defined using absolute position for safety reasons -->
+
     <arg name="cmd_rate_hz" default="30"/>
     <arg name="use_relative_xy_setpoints" default="false"/>
     <arg name="sub_topic_fcu_state" default="/aqc/fcu_state"/>
