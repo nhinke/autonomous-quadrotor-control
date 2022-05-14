@@ -173,7 +173,11 @@ It is worth reiterating that all of the commands being published by the input cl
 ### How to Write a New Input Client
 
 At their fundamental level, any input client implementation must do only three things:
-1. Ar
+1. Communicate arm and disarm commands to the aqc_driver
+2. Communicate change flight mode commands to the aqc_driver
+3. Communicate motion setpoints (e.g. position, velocity, acceleration, [etc.](https://docs.px4.io/v1.12/en/flight_modes/offboard.html#copter-vtol)) to the aqc_driver
+
+
 
 
 ### Configuring and Running SITL Simulation
