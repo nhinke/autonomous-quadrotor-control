@@ -8,9 +8,10 @@ Repository developed by Nick Hinke for EN.530.707 Robot System Programming (Spri
 3. [Software Description](#software)
 	1. [Dependencies](#software-dependencies)
 	2. [Testing Installations](#testing-installations)
-	3. [Using an Existing Input Client](#how-to-use-an-existing-input-client)
-	4. [Writing a New Input Client](#how-to-write-a-new-input-client)
-	5. [Full SITL Simulation](#configuring-and-running-sitl-simulation)
+	3. [What is an Input Client?](#what-is-an-input-client)
+	4. [Using an Existing Input Client](#how-to-use-an-existing-input-client)
+	5. [Writing a New Input Client](#how-to-write-a-new-input-client)
+	6. [Full SITL Simulation](#configuring-and-running-sitl-simulation)
 4. [Hardware Description](#hardware)
 	1. [Requirements](#hardware-requirements)
 	2. [Running AQC on Physical Hardware](#configuring-and-running-aqc-on-hardware)
@@ -148,15 +149,31 @@ The reason for keeping these input clients separate from the rest of the AQC lib
 Using one of the pre-defined input clients is very straightforward, both in simulation and when using physical hardware (since not a *single* line of code in the input client needs to change!). Currently, there are three fully-implemented input clients provided [here](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients), and one other work-in-progress. The three working clients are:
 
 1. [aqc_input_raw_twists](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_raw_twists)  
-	This
-2. [aqc_input_dynamic_reconfigure_vel](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_vel)  
-	This
-3. [aqc_input_dynamic_reconfigure_pos](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_pos)  
-	this 
+	- Publishes arm and disarm commands
+	- Publishes commands to change the vehicle flight mode
+	- Publishes velocity setpoints (x, y, z, and yaw) to the aqc_driver in the form of a twist
+	- Subscribes to a ROS topic ("/input_cmd_twist" by default) to receive a custom message from the user which defines each of the three commands above, which can be published by first typing `rostopic pub -1 /input_cmd_twist` and then using tab completion to fill out the rest of the message
 
+2. [aqc_input_dynamic_reconfigure_vel](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_vel)  
+	- Publishes arm and disarm commands
+	- Publishes commands to change the vehicle flight mode
+	- Publishes velocity setpoints (x, y, z, and yaw) to the aqc_driver in the form of a twist
+	- Uses ROS dynamic reconfigure to receive inputs from the user which define each of the three commands above
+
+3. [aqc_input_dynamic_reconfigure_pos](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_pos)  
+	- Publishes arm and disarm commands
+	- Publishes commands to change the vehicle flight mode
+	- Publishes position setpoints (x, y, z, and yaw) to the aqc_driver in the form of a custom defined message
+	- Uses ROS dynamic reconfigure to receive inputs from the user which define each of the three commands above
+
+Each of these input clients comes complete with a launch file of the form aqc_input_*.launch containing several useful arguments including the rate (in Hz) at which the input client operates as well as the names of all of the relevant topics. As such, all that is required to use one of these input clients is to launch the appropriate launch file with any arguments that you wish to specify! Then, assuming the aqc_driver is already running on the vehicle or in simulation, you'll be completely set up to send commands to the vehicle at will! 
+
+It is worth reiterating that all of the commands being published by the input clients described above are being received, processed, and appropriately forwarded in a standardized way to the vehicle's FCU *by the aqc_driver*. This demonstrates the real power of AQC, since now a user need only be concerned with the higher level questions like what kinds of setpoints should be generated for their application or even how to collect user input (see [here](#future-work) for more on this); indeed, this is due to how easy it is to define one of these input clients within this standardized framework, and crucially, to the ability of the aqc_driver to execute your commands without you needing any knowledge of *how* it's actually happening. As such, gone are the days when you have a great autonomous behavior in mind for your application, but cannot get the FCU to listen to your commands (or even establish reliable communication with it).
 
 ### How to Write a New Input Client
 
+At their fundamental level, any input client implementation must do only three things:
+1. Ar
 
 
 ### Configuring and Running SITL Simulation
