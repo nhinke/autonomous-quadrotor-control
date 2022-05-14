@@ -103,11 +103,48 @@ wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/inst
 sudo bash ./install_geographiclib_datasets.sh
 ```
 
+#### 6. [AQC!](https://github.com/nhinke/rsp-project-repo)
+
+To install:
+```bash
+source /opt/ros/melodic/setup.bash
+mkdir -p catkin_ws/src && cd catkin_ws
+git clone https://github.com/nhinke/rsp-project-repo.git src/aqc-repo
+catkin build
+source devel/setup.bash
+```
+
+See next section [here](#testing-installation) regarding how to test to ensure that everything was installed and set up correctly.
+
 ### Configuring and Running SITL Simulation
 
+TODO
+basic sim to test functionality of aqc and input clients
+not about being fancy or looking pretty
+important thing is that your code will run exactly the same way in sim and in real life
+future work: could make sim more realistc by including wind, noise in gps and other sensors, etc.
+link [here](https://docs.px4.io/v1.12/en/simulation/gazebo.html) for how to do some of that and more
+
+#### Testing Installation
+
+After doing all that work to install the dependencies and set up your environment, it would be certainly be a good idea to make sure it all works! If everything built correctly, you're already off to a great start. To truly test if everything is installed correctly, you can launch a slightly simplified version of the simulation that allows for inputs through the terminal window in which it was launched.
+
+To launch:
 ```bash
-$ cd
+# assuming you are starting in catkin_ws where aqc_repo was just built
+chmod +x src/aqc-repo/scripts/test-sim-env.sh
+./src/aqc-repo/scripts/test-sim-env.sh
 ```
+
+Running this script should open QGroundControl and Gazebo, and you should see something akin to the following:
+
+<p align="center">
+  <img src="/doc/images/test-sim-script-windows.png" alt="Screenshot of windows that open after running test-sim-env.sh script" style="width:60%;"/>
+</p>
+
+As long as you ran the script in the foreground, hitting enter in the same terminal window from which you ran it should provide you with a command line interface designated by `pxh>`. This should allow you to control the vehicle in the simulation, which you can try by using commands such as `commander arm` and `commander takeoff`. For a full list of the available commands, simply enter `commander help`.
+
+Note that the script used to launch this test simulation references [this script](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/scripts/launch-sim.sh) which is used to launch **all** simulations from within AQC. Notably, this script uses the shell command `locate` to find your installations of QGroundControl and PX4-Autopilot. If you find that this takes too long to launch the simulations, simply define the appropriate installations paths in that script.
 
 ### How to Use an Existing Input Client
 
@@ -122,11 +159,11 @@ This section will focus exclusively on the hardware setup that I used for testin
 
 
 <p align="center">
-  <img src="/doc/images/x500-1.png" alt="x500 with GCS" style="width:60%;"/>
+  <img src="/doc/images/x500-with-GCS.png" alt="x500 with GCS" style="width:60%;"/>
 </p>
 
 <p align="center">
-  <img src="/doc/images/x500-2.png" alt="x500 close-up" style="width:75%;"/>
+  <img src="/doc/images/x500-close-up.png" alt="x500 close-up" style="width:75%;"/>
 </p>
 
 <!-- <center><img src="doc/images/x500-1.png" alt="x500 with GCS" style="width: 80%;"/></center>
