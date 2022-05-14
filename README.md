@@ -290,16 +290,22 @@ Steps required for my hardware implementation:
 ## Brief Overview of each Package
 
 In the order in which they are listed in the repository:
-1. aqc_controllers - this is a meta-package which contains all controllers that are used within aqc_driver
-	1. aqc_controller_pid - **INCOMPLETE**, this package will be used to define a PID position controller that uses velocity setpoint commands, but it is currently incomplete
-	2. aqc_pos_controller_px4 - this package contains a position controller which communicates position setpoints to the FCU (which is the highest available method of control input supported by PX4) and can be configured in either absolute position mode or relative position mode
-	3. aqc_pos_contoller_rtt - **INCOMPLETE**, this package was going to be used to define position setpoints using Orocos RTT, but was put on the back burner given that many companion computer may struggle to run this anyway
-	4. aqc_vel_controller_raw_twists - this package contains a velocity controller which communicates velocity setpoints to the FCU 
-2. 
-3. 
-4. 
-5. 
-6. 
+1. [aqc_controllers](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_controllers) - this is a meta-package which contains all controllers that are used within aqc_driver
+	1. [aqc_controller_pid](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_controllers/aqc_pos_controller_pid) - **INCOMPLETE**, this package will be used to define a PID position controller that uses velocity setpoint commands, but it is currently incomplete
+	2. [aqc_pos_controller_px4](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_controllers/aqc_pos_controller_px4) - this package contains a position controller which communicates position setpoints to the FCU (which is the highest available method of control input supported by PX4) and can be configured in either absolute position mode or relative position mode
+	3. [aqc_pos_contoller_rtt](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_controllers/aqc_pos_controller_rtt) - **INCOMPLETE**, this package was going to be used to define position setpoints using [Orocos RTT], but was put on the back burner given that many companion computer may struggle to run this anyway
+	4. [aqc_vel_controller_raw_twists](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_controllers/aqc_vel_controller_raw_twists) - this package contains a velocity controller which communicates velocity setpoints to the FCU 
+2. [aqc_coordinator](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_coordinator) - this package is primarily responsible for handling any arm requests or change flight mode requests coming from the input client, but it also publishes a lot of useful information regarding the state of the vehicle within the "/aqc/" namespace that input clients may rely on
+3. [aqc_driver](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_driver) - this meta-package provides a very easy way to launch all of the apporpriate nodes/packages on the vehicle's companion computer (or within a Gazebo simulation) through just a single launch file
+4. [aqc_mode_manager](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_mode_manager) - this package provides a bridge between the [aqc_coordinator](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_coordinator) package and [mavros](http://wiki.ros.org/mavros) (for communicating arm requests and change flight mode request to the FCU); this was done to simplify the development of any future input clients by ensuring that you can get and set everything you want/need through the [aqc_coordinator](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_coordinator) package while keeping it as lightweight and easy to understand as possible
+5. [aqc_msgs](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_msgs) - this package contains all of the custom .msg, .src, and .action files used throughout AQC
+6. [doc](https://github.com/nhinke/rsp-project-repo/tree/master/doc) - this is *not* a package, just a directory containing the images used in this README
+7. [example_aqc_input_clients](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients) - this is a meta-package which contains all of the provided AQC input clients
+	1. [aqc_input_dynamic_reconfigure_pos](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_pos) - this package contains an input client which generates position setpoints (and support either relative or absolute positions) for the vehicle using an rqt_reconfigure_window 
+	2. [aqc_input_dynamic_reconfigure_vel](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_vel) - this package contains an input client which generates velocity setpoints for the vehicle using an rqt_reconfigure_window
+	3. [aqc_input_raw_twists](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_raw_twists) - this package contains an input client which generates velocity setpoints for the vehicle by subrscribing to a topic that a user can publish commands to (see [here](#how-to-use-an-existing-input-client) for how to do this)
+	4. [aqc_input_teleop_twist](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_teleop_twist) - **INCOMPLETE**, this package contains a partially implemented input client based on a c++ implementation of the ROS [teleop_twist_keyboard](https://github.com/methylDragon/teleop_twist_keyboard_cpp) which will be used to generate velocity setpoints for the vehicle through keybindings
+8. [scripts](https://github.com/nhinke/rsp-project-repo/tree/master/scripts) - this is *not* a package, just contains a single script for testing your dependency installations as described [here](#testing-installations)
 
 
 ## Personal Remarks
