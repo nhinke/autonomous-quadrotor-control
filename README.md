@@ -19,6 +19,7 @@ Repository developed by Nick Hinke for EN.530.707 Robot System Programming (Spri
 6. [Overview of Each Package](#overview-of-each-package)
 7. [Personal Remarks](#personal-remarks)
 
+
 ## Brief Description
 
 The Autonomous Quadrotor Control Library (henceforth known as AQC), was created with the intention of making software development for autonomous quadrotors *easier*. AQC currently only targets the [PX4-Autopilot](https://px4.io/) software, but could be extended to additionally support [Ardupilot](https://ardupilot.org/). Additionally, despite its name, AQC supports any flavor of multicopter supported by PX4.
@@ -50,6 +51,7 @@ See YouTube video descriptions at the links below for more information regarding
 
 
 ## Software
+
 
 ### Software Dependencies
 
@@ -117,6 +119,7 @@ source devel/setup.bash
 
 See next section [here](#testing-installation) regarding how to test to ensure that everything was installed and set up correctly.
 
+
 ### Testing Installations
 
 After doing all that work to install the dependencies and set up your environment, it would be certainly be a good idea to make sure it all works! If everything built correctly, you're already off to a great start. To truly test if everything is installed correctly, you can launch a slightly simplified version of the simulation that allows for inputs through the terminal window in which it was launched.
@@ -138,11 +141,13 @@ As long as you ran the script in the foreground, hitting enter in the same termi
 
 Note that the script used to launch this test simulation references [this script](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/scripts/launch-sim.sh) which is used to launch **all** simulations from within AQC. Notably, this script uses the shell command `locate` to find your installations of QGroundControl and PX4-Autopilot. If you find that this takes too long to launch the simulations, simply define the appropriate installations paths in that script.
 
+
 ### What is an Input Client?
 
 As previously mentioned, the typical use case for AQC will first involve launching the aqc_driver (either the physical hardware version at [aqc_driver.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_driver.launch) or the simulation version at [aqc_sim.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_sim.launch)) to act as a server side running on the vehicle. Indeed, running this driver is what provides all of the functionality described above. After launching the driver, all of the necessary communications bridges have been made to the PX4 software stack, and so the system is just waiting for some good input commands. In order to provide these commands in a standardized way, we define the notion of an "input client" which is responsible for communicating all commands to the aqc_driver. While it is possible (and encouraged!) to define your own input clients specific to your application as will be discussed briefly [here](#how-to-write-a-new-input-client) and [here](#future-work), there are several pre-existing input clients that are ready for you to use right away. They can all be found in the directory titled [example_aqc_input_clients](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients).
 
 The reason for keeping these input clients separate from the rest of the AQC library is because, frankly, they do not belong in here. This is because for most applications, the companion computer onboard the vehicle will manage the aqc_driver and the ROS Master, but will never utilize one of these inputs clients (rather, they will only receive commands from them via pre-defined communication channels). Consequently, there is no reason to waste any memory on a resource-constrained companion computer, and they are only included in this repo for illustrative purposes. If you wish to use them, copy them into a different repository specific to your application and work with them there. That being said, however, if you wish to simulate both the input client and the aqc_driver on the same machine during development, it may make sense to keep the input clients here until it comes time to deploy your software onto physical hardware.
+
 
 ### How to Use an Existing Input Client
 
@@ -166,9 +171,10 @@ Using one of the pre-defined input clients is very straightforward, both in simu
 	- Publishes position setpoints (x, y, z, and yaw) to the aqc_driver in the form of a custom defined message
 	- Uses ROS dynamic reconfigure to receive inputs from the user which define each of the three commands above
 
-Each of these input clients comes complete with a launch file of the form aqc_input_*.launch containing several useful arguments including the rate (in Hz) at which the input client operates as well as the names of all of the relevant topics. As such, all that is required to use one of these input clients is to launch the appropriate launch file with any arguments that you wish to specify! Then, assuming the aqc_driver is already running on the vehicle or in simulation, you'll be completely set up to send commands to the vehicle at will! 
+Each of these input clients comes complete with a launch file of the form aqc_input_*.launch containing several useful arguments including the rate (in Hz) at which the input client operates as well as the names of all of the relevant topics. As such, all that is required to use one of these input clients is to launch the appropriate launch file with any arguments that you wish to specify! Then, assuming the aqc_driver is already running on the vehicle or in simulation with the appropriate controllers enabled, you'll be completely set up to send commands to the vehicle at will! 
 
 It is worth reiterating that all of the commands being published by the input clients described above are being received, processed, and appropriately forwarded in a standardized way to the vehicle's FCU *by the aqc_driver*. This demonstrates the real power of AQC, since now a user need only be concerned with the higher level questions like what kinds of setpoints should be generated for their application or even how to collect user input (see [here](#future-work) for more on this); indeed, this is due to how easy it is to define one of these input clients within this standardized framework, and crucially, to the ability of the aqc_driver to execute your commands without you needing any knowledge of *how* it's actually happening. As such, gone are the days when you have a great autonomous behavior in mind for your application, but cannot get the FCU to listen to your commands (or even establish reliable communication with it).
+
 
 ### How to Write a New Input Client
 
@@ -177,7 +183,11 @@ At their fundamental level, any input client implementation must do only three t
 2. Communicate change flight mode commands to the aqc_driver
 3. Communicate motion setpoints (e.g. position, velocity, acceleration, [etc.](https://docs.px4.io/v1.12/en/flight_modes/offboard.html#copter-vtol)) to the aqc_driver
 
+Considering a slightly more detailed view, both of the first two commands are handled by actionlib servers running within the [aqc_coordinator node](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_coordinator), which is one of the most important nodes operating within aqc_driver. The quickest way to handle the first two commands within your input client would likely be to simply copy the code in the [provided examples](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients) corresponding to these actionlib servers ([ArmAction](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_msgs/action/Arm.action) and [ChangeFlightModeAction](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_msgs/action/ChangeFlightMode.action), respectively). 
 
+After very easily completing the first two required tasks, the third one (regarding motion setpoints) requires a little more care. Currently, only two types of controller have been fully implemented, namely using east-north-up (ENU) absolute position setpoints (plus yaw) or ENU velocity setpoints (plus yaw rate). These controllers operate within the aqc_driver, and their implementations can be found [here](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_controllers/aqc_pos_controller_px4) and [here](https://github.com/nhinke/rsp-project-repo/tree/master/aqc_controllers/aqc_vel_controller_raw_twists), respectively. Both of these controllers listen for published setpoints on ROS topics ("/cmd_position" and "/cmd_vel" by default).
+
+Consequently, to communicate motion setpoints to the appropriate controllers, your input client need only publish a message containing your setpoint on the appropriate topic. The controller will then handle the rest. You do have to be careful, however, to ensure that your controller was enabled when launched the aqc_driver (using either [aqc_driver.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_driver.launch) or [aqc_sim.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_sim.launch). Enabling and disabling controllers--as well as remapping the topics they subscribe to--can all be done through arguments passed to one of these two launch files. As a result, after completely defining your own new input client, the only thing you have to do to ensure that the aqc_driver will be able to process your commands is to correctly set the arguments to a single launch file. Thus, it has once again been shown (and is demonstrated in [Demo2](#demo-videos) on physical hardware), that AQC can completely control the vehicle just by appropriately launching two launch files: one for the aqc_driver and the other for the input client.
 
 
 ### Configuring and Running SITL Simulation
