@@ -126,7 +126,7 @@ After doing all that work to install the dependencies and set up your environmen
 
 To launch:
 ```bash
-# assuming you are starting in catkin_ws where aqc_repo was just built
+# assuming you are starting in the catkin_ws where aqc_repo was just built
 chmod +x src/aqc-repo/scripts/test-sim-env.sh
 ./src/aqc-repo/scripts/test-sim-env.sh
 ```
@@ -196,22 +196,33 @@ Consequently, to communicate motion setpoints to the appropriate controllers, yo
 Each provided input client has an "end-to-end" (e2e) launch file entitled "demo_sim_e2e.launch" for testing (found [here](https://github.com/nhinke/rsp-project-repo/blob/master/example_aqc_input_clients/aqc_input_raw_twists/launch/demo_sim_e2e.launch), [here](https://github.com/nhinke/rsp-project-repo/blob/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_vel/launch/demo_sim_e2e.launch), and [here](https://github.com/nhinke/rsp-project-repo/blob/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_pos/launch/demo_sim_e2e.launch)). To get started running your first full SITL simulation (the PX4 software stack is considered "in-the-loop" here), simply launch any one of these files (and give it a second to find and load everything); for example:
 
 ```bash
-# assuming you are starting in catkin_ws where aqc_repo was built
+# assuming you are starting in the catkin_ws where aqc_repo was built
 source devel/setup.bash
 roslaunch aqc_input_dynamic_reconfigure_vel demo_sim_e2e.launch
 ```
 
 #### Considering more detail:
 
-It should be mentioned that since the goal of AQC is to speed up and simplify the development of autonomous behaviors for multicopters, the only real priority when simulating the system was to provide a simulation environment that interfaces with your code in exactly the same way as the aqc_driver for physical hardware. As such, only a very basic simulation was utilized for first testing the functionality of the aqc_driver and subsequently for testing the performance of the input clients. That being said, it would be very straightforward to jazz up the simulation quickly to fit the needs of your application (e.g. using a world with lots of obstacles if your application requires obstacle avoidance capabilities). Additionally, if it is desired to simulate the robustness of your implementation to uncertainty or noise for your application (e.g. PID trajectory tracking controller performance, active disturbance rejection at high altitudes, etc.), a variety of parameters could be introduced to the simulation via Gazebo Plugins or otherwise including wind, sensor noise, gps errors, etc. PX4 even provides a good resource [here]() with some ideas and implementations for simulating such things. All that being said, however, the priority here was simply to prove the functionality of AQC, so only a rather minimalist simulation enviroment was required.
+It should be mentioned that since the goal of AQC is to speed up and simplify the development of autonomous behaviors for multicopters, the only real priority when simulating the system was to provide a simulation environment that interfaces with your code in exactly the same way as the aqc_driver for physical hardware. As such, only a very basic simulation was utilized for first testing the functionality of the aqc_driver and subsequently for testing the performance of the input clients. That being said, it would be very straightforward to jazz up the simulation quickly to fit the needs of your application (e.g. using a world with lots of obstacles if your application requires obstacle avoidance capabilities). Additionally, if it is desired to simulate the robustness of your implementation to uncertainty or noise for your application (e.g. PID trajectory tracking controller performance, active disturbance rejection at high altitudes, etc.), a variety of parameters could be introduced to the simulation via Gazebo Plugins or otherwise including wind, sensor noise, gps errors, etc. PX4 even provides a good resource [here](https://docs.px4.io/master/en/simulation/ros_interface.html) with some ideas and implementations for simulating such things. All that being said, however, the priority here was simply to prove the functionality of AQC, so only a rather minimalist simulation enviroment was required.
 
 Recall that when considering running AQC on physical hardware, the typical use case will almost always involve the aqc_driver running on the vehicle's companion computer, whereas the input client will be running on a laptop/GCS. As such, since the two sides of the system are divided as server (aqc_driver) and client (input_client), ideally they should be simulated as such. In that vein, there is a single launch file for launching the aqc_driver in simulation called [aqc_sim.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_sim.launch). When launching this file, you can pass it many arugments including the controllers to be enabled and their frequency, the names of the relevant topics, and even the simulated FCU url if your application requires the use of one other than the default set by PX4 [here](https://docs.px4.io/v1.12/en/simulation/ros_interface.html). Thus, once you know which input client you would like to test (i.e. the controllers it requires and the topics to which it will be publishing setpoints), you can launch just the single [aqc_sim.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_sim.launch) file to begin the simulation in Gazebo. Note that this file actually launches Gazebo and QGroundControl using the same script as used when [testing the installations](#testing-installations).
 
 All that being said, in order to speed up development times, you're going to want to just launch a single file to test your code since both the aqc_driver and the input client will (very likely) be running on the same machine. To do so, this single launch file should only need to launch the input client you wish to test along with [aqc_sim.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_sim.launch) (and likely some shared arguments between the two). As a new combined launch file such as this would be required for every new input client implementation, it is recommended that a launch file of this nature be included under the launch directory within the test client package. Three such examples of these combined launch files exist within the [example input clients](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients) directory, one for each of the provided input clients, namely:
 
-1. the
-2. the
-3. the
+1. [demo_sim_e2e.launch](https://github.com/nhinke/rsp-project-repo/blob/master/example_aqc_input_clients/aqc_input_raw_twists/launch/demo_sim_e2e.launch) for [aqc_input_raw_twists](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_raw_twists)
+2. [demo_sim_e2e.launch](https://github.com/nhinke/rsp-project-repo/blob/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_vel/launch/demo_sim_e2e.launch) for [aqc_input_dynamic_reconfigure_vel](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_vel)
+3. [demo_sim_e2e.launch](https://github.com/nhinke/rsp-project-repo/blob/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_pos/launch/demo_sim_e2e.launch) for [aqc_input_dynamic_reconfigure_pos](https://github.com/nhinke/rsp-project-repo/tree/master/example_aqc_input_clients/aqc_input_dynamic_reconfigure_pos)
+
+Each of these files has several arguments that you can pass to it during launch, including the controller rate in aqc_driver, the input command rate, relevant topic names, etc. If you look closely at each of the files, you will notice that they all simply launch their target input client in addition to launching [aqc_sim.launch](https://github.com/nhinke/rsp-project-repo/blob/master/aqc_driver/launch/aqc_sim.launch) with the approrpriate arguments. As such, this strucutre of launch file would be applicable to any input client that you define.
+
+To try one out:
+```bash
+# assuming you are starting in the catkin_ws where aqc_repo was built
+source devel/setup.bash
+roslaunch aqc_input_dynamic_reconfigure_vel demo_sim_e2e.launch
+```
+
+
 
 
 
