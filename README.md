@@ -3,7 +3,7 @@
 Repository developed by Nick Hinke for EN.530.707 Robot System Programming (Spring '22)
 
 ## README Contents
-1. [Brief Description](#brief-description)
+1. [Description](#brief-description)
 2. [Demo Videos](#demo-videos)
 3. [Software Description](#software)
 	1. [Dependencies](#software-dependencies)
@@ -16,7 +16,7 @@ Repository developed by Nick Hinke for EN.530.707 Robot System Programming (Spri
 	1. [Requirements](#hardware-requirements)
 	2. [Running AQC on Physical Hardware](#configuring-and-running-aqc-on-hardware)
 5. [Future Work](#future-work)
-6. [Overview of Each Package](#overview-of-each-package)
+6. [Brief Overview of Each Package](#overview-of-each-package)
 7. [Personal Remarks](#personal-remarks)
 
 
