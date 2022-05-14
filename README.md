@@ -130,7 +130,7 @@ chmod +x src/aqc-repo/scripts/test-sim-env.sh
 Running this script should open QGroundControl and Gazebo, and you should see something akin to the following:
 
 <p align="center">
-  <img src="/doc/images/test-sim-script-windows.png" alt="Screenshot of windows that open after running test-sim-env.sh script" style="width:70%;"/>
+  <img src="/doc/images/test-sim-script-windows.png" alt="Screenshot of windows that open after running test-sim-env.sh script" style="width:80%;"/>
 </p>
 
 As long as you ran the script in the foreground, hitting enter in the same terminal window from which you ran it should provide you with a command line interface designated by `pxh> `. This should allow you to control the vehicle in the simulation, which you can try by using commands such as `commander arm` and `commander takeoff`. For a full list of the available commands, simply enter `commander help`.
