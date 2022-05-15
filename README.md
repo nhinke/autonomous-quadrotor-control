@@ -1,6 +1,6 @@
 # Autonomous Quadrotor Control Library (AQC)
 
-Repository developed by Nick Hinke for EN.530.707 Robot System Programming (Spring '22)
+Repository developed by Nick Hinke (nhinke1) for EN.530.707 Robot System Programming (Spring '22)
 
 ## README Contents
 1. [Description](#description)
